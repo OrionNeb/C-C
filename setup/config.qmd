@@ -24,7 +24,7 @@
 \newcommand{\studentadresse}{Senner Straße 68}
 \newcommand{\studentplzort}{33647}
 \newcommand{\studentemail}{christian.roth@edu.fhdw.de}
-\newcommand{\eingereichtam}{judgement day}
+\newcommand{\eingereichtam}{08. September 2025}
 \newcommand{\einreichungsort}{Bielefeld}
 
 \newcommand{\studentnameB}{[Name Studierender B]}
@@ -47,5 +47,5 @@
 
 % ------------------------- Unterschriften -------------------------
 
-\newcommand{\unterschriftA}{[Pfad zur Unterschrift A]} % nur wenn vorhanden
+\newcommand{\unterschriftA}{img/UnterschriftA.png} % nur wenn vorhanden
 \newcommand{\unterschriftB}{[Pfad zur Unterschrift B]} % optional
