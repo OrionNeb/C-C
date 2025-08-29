@@ -13,3 +13,7 @@ RnwWeave: knitr
 LaTeX: LuaLaTeX
 
 BuildType: Makefile
+
+PythonType: conda
+PythonVersion: 3.13.5
+PythonPath: C:/Users/Christian/miniconda3/python.exe

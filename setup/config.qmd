@@ -7,7 +7,7 @@
 % ---------------- Dokumenttitel & Metadaten -----------------------
 
 \newcommand{\thetitle}{Kundensegmentierung mit RetailRocket und Online Retail II} % Dokumenttitel
-\newcommand{\headertitle}{[Kurztitel für Kopfzeile]} % Kurztitel für Kopfzeile
+\newcommand{\headertitle}{Segmente RR und OR2} % Kurztitel für Kopfzeile
 \newcommand{\kooperationsunternehmen}{[Name des Unternehmens]} % optional
 
 % 1 = Seminararbeit, 2 = Projektarbeit, 3 = Studienarbeit, 4 = Praxisarbeit,
@@ -16,13 +16,13 @@
 
 % ------------------------- Beteiligte Personen -------------------------
 % Gebe hier an, wie viele Personen beteiligt sind: 1 oder 2
-\newcommand{\anzahlpersonen}{3} % zentrale Steuerung
+\newcommand{\anzahlpersonen}{1} % zentrale Steuerung
 
 % ------------------------- Studierender A und B -------------------------
 
 \newcommand{\studentname}{Christian Roth}
 \newcommand{\studentadresse}{Senner Straße 68}
-\newcommand{\studentplzort}{33647}
+\newcommand{\studentplzort}{33647 Bielefeld}
 \newcommand{\studentemail}{christian.roth@edu.fhdw.de}
 \newcommand{\eingereichtam}{08. September 2025}
 \newcommand{\einreichungsort}{Bielefeld}
