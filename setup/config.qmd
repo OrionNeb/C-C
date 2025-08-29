@@ -6,7 +6,7 @@
 
 % ---------------- Dokumenttitel & Metadaten -----------------------
 
-\newcommand{\thetitle}{[Titel der Arbeit]} % Dokumenttitel
+\newcommand{\thetitle}{Kundensegmentierung mit RetailRocket und Online Retail II} % Dokumenttitel
 \newcommand{\headertitle}{[Kurztitel für Kopfzeile]} % Kurztitel für Kopfzeile
 \newcommand{\kooperationsunternehmen}{[Name des Unternehmens]} % optional
 
@@ -16,7 +16,7 @@
 
 % ------------------------- Beteiligte Personen -------------------------
 % Gebe hier an, wie viele Personen beteiligt sind: 1 oder 2
-\newcommand{\anzahlpersonen}{1} % zentrale Steuerung
+\newcommand{\anzahlpersonen}{3} % zentrale Steuerung
 
 % ------------------------- Studierender A und B -------------------------
 
