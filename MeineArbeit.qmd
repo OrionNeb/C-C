@@ -120,25 +120,24 @@ from pulp import LpMaximize, LpProblem, LpVariable, value
 
 # Einleitung {#sec-einleitung}
 
-Laut einer Untersuchung von Mustermann [@TestEintrag1] ist das Problem bekannt.
-
-Andere Autoren sind anderer Meinung [@TestEintrag2].
-
-Was eine \gls{mfa} ist, wird im Glossar beschrieben.
-
-
-
 ## Problemstellung {#sec-problemstellung}
 
-Viele Unternehmen segmentieren Kunden ausschließlich innerhalb einer einzelnen Datenquelle, etwa nur im Shop-Clickstream oder nur in Bestelldaten. Dadurch entstehen Cluster, die schwer übertragbar sind und deren Aussagekraft stark von der jeweiligen Datenwelt abhängt. Gleichzeitig verlangt das CRM nach stabilen, interpretierbaren Segmenten, die sowohl Nutzungsverhalten als auch Kaufmuster abbilden und ohne personenbezogene Daten auskommen. Es fehlt eine kompakte, belastbare Vorgehensweise, die zwei Datensätze zusammenführt, zwei unterschiedliche Clusterverfahren systematisch vergleicht und die Qualität der resultierenden Segmente mit über die Vorlesung hinausgehenden Maßen belegt.
+Unternehmen segmentieren Kunden oft je Datenquelle, etwa nur im Clickstream oder nur in Transaktionen. So entstehen Cluster mit begrenzter Übertragbarkeit. CRM benötigt jedoch stabile, interpretierbare Segmente, die Nutzungs- und Kaufverhalten zusammenführen und ohne personenbezogene Daten auskommen.
+
+
 
 ## Zielsetzung {#sec-zielsetzung}
 
-Diese Arbeit verfolgt drei Ziele. Erstens werden RetailRocket und Online Retail II in ein gemeinsames Ereignisschema überführt und mit datenquellenübergreifenden Merkmalen beschrieben RFM, Konversionsraten, Zeitmuster, Diversität, Zwischenkaufintervalle sowie Text-Mining über Kategoriepfade. Zweitens werden Kundencluster mit zwei kontrastierenden Verfahren gebildet K-Means und HDBSCAN und systematisch miteinander verglichen. Drittens wird die Clusterqualität umfassend bewertet mit Silhouette und Davies–Bouldin, zusätzlich DBCV für HDBSCAN, sowie die Stabilität über Bootstrapping und den Adjusted-Rand-Index; die Clustertendenz wird mit der Hopkins-Statistik geprüft. Eine Ablationsanalyse quantifiziert den Beitrag der Merkmalsgruppen.
+Die Arbeit vereinheitlicht RetailRocket und Online Retail II zu einem Ereignisschema und beschreibt Kunden mit einem gemeinsamen Merkmalset aus RFM, Konversionsraten, Zeitmustern, Diversität, Zwischenkaufintervallen sowie Text-Mining auf Kategoriepfaden. Darauf aufbauend werden K-Means und HDBSCAN angewandt und verglichen. Qualität, Stabilität und Clustertendenz werden mit Silhouette-Index, Davies-Bouldin-Index, DBCV, Bootstrapping, Adjusted Rand Index und der Hopkins-Statistik bewertet.
+
+
 
 ## Vorgehensweise {#sec-vorgehensweise}
 
-Die Studie orientiert sich strikt an CRISP-DM. Im Datenverständnis werden Struktur und Eigenschaften beider Datensätze erfasst sowie Datenschutz und Zweckbindung erläutert. In der Datenaufbereitung werden beide Quellen auf ein einheitliches Schema mit customer_id, ts, event_type, product_id, category_path, qty, revenue, channel abgebildet und ein datenquellenübergreifendes Feature-Set konstruiert. In der Modellierung werden K-Means mit Auswahl der Clusterzahl über Silhouette und Davies–Bouldin sowie HDBSCAN mit Parameterwahl über den DBCV-Index angewendet. Die Stabilität wird über wiederholte Stichproben Bootstrapping mit dem Adjusted-Rand-Index gemessen; die Clustertendenz wird mit der Hopkins-Statistik geprüft. Die Evaluation vergleicht die Verfahren je Datensatz und diskutiert Clusterprofile anhand von Kennzahlen und dominanten Kategorien. Reproduzierbarkeit wird durch eine klar strukturierte Notebook-Pipeline, feste Seeds, dokumentierte Hyperparameter und exportierte Metriktabellen sichergestellt; personenbezogene Daten werden nicht verwendet.
+Die Untersuchung folgt CRISP-DM mit Datenverständnis und EDA, Vereinheitlichung, Merkmalserstellung, Modellierung, Evaluation und Profiling zu CRM-Segmenten. Leitend ist die Frage, wie robust und übertragbar Kundencluster aus RetailRocket und Online Retail II sind, die mit K-Means und HDBSCAN gebildet werden, gemessen mit Silhouette-Index, Davies-Bouldin-Index, DBCV und Adjusted Rand Index, und wie sie zu geschäftlich interpretierbaren Segmenten profiliert werden können.
+
+
+
 
 <!-- ================= 2. Theoretische Grundlagen ================= -->
 
@@ -193,6 +192,12 @@ Die Studie orientiert sich strikt an CRISP-DM. Im Datenverständnis werden Struk
 <!-- ================= 5. Fazit und Ausblick ================= -->
 
 # Fazit und Ausblick
+
+Laut einer Untersuchung von Mustermann [@TestEintrag1] ist das Problem bekannt.
+
+Andere Autoren sind anderer Meinung [@TestEintrag2].
+
+Was eine \gls{mfa} ist, wird im Glossar beschrieben.
 
 ## Beantwortung der Forschungsfrage
 ## Nutzen für CRM, Kampagnensteuerung und nächste Schritte
