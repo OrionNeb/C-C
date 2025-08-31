@@ -45,7 +45,7 @@ format:
     reference-doc: setup/FHDW-Powerpoint-Vorlage_16zu9.pptx  # (Optional) Eigene Vorlage nutzen
 bibliography: setup/references.yaml
 citeproc: true
-csl: https://www.zotero.org/styles/apa-with-abstract # setup/apa-with-abstract.csl
+csl: setup/apa-with-abstract-de.csl # https://www.zotero.org/styles/apa-with-abstract
 link-citations: true
 link-bibliography: true
 editor: source
@@ -145,6 +145,14 @@ Die Untersuchung folgt CRISP-DM mit Datenverständnis und EDA, Vereinheitlichung
 
 ## Kundensegmentierung im CRM Kontext {#sec-kundensegmentierung}
 
+Kundensegmentierung stellt ein zentrales Instrument des Customer Relationship Managements (CRM) dar, da sie es Unternehmen ermöglicht, heterogene Kundenbestände in homogene Teilgruppen zu überführen. Ziel ist es, Unterschiede in Verhalten, Nutzung oder Bedürfnissen systematisch herauszuarbeiten und auf dieser Basis Marketingstrategien differenziert auszurichten.
+
+Clustering bietet hierfür die methodische Grundlage. Es handelt sich um ein Verfahren des unüberwachten Lernens, das darauf abzielt, natürliche Gruppierungen in Daten aufzudecken und Kunden in Segmente mit hoher interner Kohäsion zu überführen. Wie betont wird, „clustering techniques identify meaningful natural groupings of records and group customers into distinct segments with internal cohesion“ (@tsiptsisDataMiningTechniques2010, S. 39).
+
+Im CRM-Kontext geht es dabei nicht nur um eine technische Gruppierung, sondern um die Entwicklung von Segmenten, die eine gezielte Marktbearbeitung erlauben. Clustering „attempt[s] to do exactly that: identify distinct customer typologies and segment the customer base into groups of similar profiles so that they can be marketed more effectively“ (@tsiptsisDataMiningTechniques2010, S. 40). Auf diese Weise wird der Übergang vom Massenmarketing hin zu einer differenzierten, segmentspezifischen Kundenansprache unterstützt.
+
+Darüber hinaus hängt der Nutzen von Kundensegmenten stark davon ab, ob sie geschäftlich verwertbar sind. Wie die Autoren betonen, „the value of each solution depends on its ability to represent transparent, meaningful, and actionable customer typologies“ (@tsiptsisDataMiningTechniques2010, S. 129). Damit wird deutlich, dass Segmentierung im CRM nicht Selbstzweck ist, sondern nur dann zum Einsatz kommen sollte, wenn die gebildeten Gruppen sowohl interpretierbar als auch handlungsleitend sind.
+
 ## Datenquellen und Datenschutz RetailRocket und Online Retail II {#sec-datenquellen}
 
 ## Clusterverfahren im Überblick K-Means und HDBSCAN {#sec-clusterverfahren}
@@ -193,11 +201,10 @@ Die Untersuchung folgt CRISP-DM mit Datenverständnis und EDA, Vereinheitlichung
 
 # Fazit und Ausblick
 
-Laut einer Untersuchung von Mustermann [@TestEintrag1] ist das Problem bekannt.
 
-Andere Autoren sind anderer Meinung [@TestEintrag2].
 
-Was eine \gls{mfa} ist, wird im Glossar beschrieben.
+Was eine \gls{mfa} ist, wird im Glossar beschrieben. Auch glspl und glslink sind möglich.
+
 
 ## Beantwortung der Forschungsfrage
 ## Nutzen für CRM, Kampagnensteuerung und nächste Schritte

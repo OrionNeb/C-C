@@ -1,21 +1,72 @@
+---
 references:
-  - id: TestEintrag1
-    type: article
-    author:
-      - family: Mustermann
-        given: Max
-    title: "Ein einfacher Testartikel"
-    container-title: "Beispiel-Zeitschrift"
-    issued:
-      year: 2024
+- id: miyabonOnlineRetailII2009
+  accessed:
+    - year: 2025
+      month: 8
+      day: 30
+  author:
+    - family: Miyabon
+      given: ''
+  citation-key: miyabonOnlineRetailII2009
+  issued:
+    - year: 2009
+      month: 8
+      day: 31
+    - year: 2011
+      month: 12
+      day: 30
+  language: en
+  license: CC0 1.0 Universal
+  title: Online Retail II UCI
+  type: webpage
+  URL: https://www.kaggle.com/datasets/mashlyn/online-retail-ii-uci
 
-  - id: TestEintrag2
-    type: article
-    author:
-      - family: Musterfrau
-        given: Erika
-    title: "Ein weiterer Testartikel"
-    container-title: "Test-Journal"
-    issued:
-      year: 2023
+- id: tsiptsisDataMiningTechniques2010
+  accessed:
+    - year: 2025
+      month: 8
+      day: 31
+  author:
+    - family: Tsiptsis
+      given: Konstantinos
+    - family: Chorianopoulos
+      given: Antonios
+  citation-key: tsiptsisDataMiningTechniques2010
+  DOI: 10.1002/9780470685815
+  edition: '1'
+  ISBN: 978-0-470-74397-3 978-0-470-68581-5
+  issued:
+    - year: 2010
+      month: 1
+      day: 15
+  language: en
+  license: http://doi.wiley.com/10.1002/tdm_license_1.1
+  publisher: Wiley
+  source: DOI.org (Crossref)
+  title: 'Data Mining Techniques in CRM: Inside Customer Segmentation'
+  title-short: Data Mining Techniques in CRM
+  type: book
+  URL: https://onlinelibrary.wiley.com/doi/book/10.1002/9780470685815
 
+- id: zykovRetailrocketRecommenderSystem
+  abstract: 'Ecommerce data: web events, item properties (with texts), category tree'
+  accessed:
+    - year: 2025
+      month: 8
+      day: 30
+  author:
+    - family: Zykov
+      given: Roman
+    - family: Noskov
+      given: Artem
+    - family: Anokhin
+      given: Alexander
+  citation-key: zykovRetailrocketRecommenderSystem
+  container-title: kaggle.com
+  language: en
+  license: CC BY-NC-SA 4.0
+  title: Retailrocket recommender system dataset
+  type: webpage
+  URL: https://www.kaggle.com/datasets/retailrocket/ecommerce-dataset
+...
