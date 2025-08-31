@@ -143,21 +143,31 @@ Die Untersuchung folgt CRISP-DM mit Datenverständnis und EDA, Vereinheitlichung
 
 # Grundlagen {#sec-grundlagen}
 
+CRISP-DM bildet den Prozessrahmen dieser Arbeit. Wirth und Hipp schreiben: „The life cycle of a data mining project is broken down in six phases“ (@wirthCRISPDMStandardProcess2000, S. 4). Die Phasen reichen von Business Understanding über Data Understanding, Data Preparation, Modeling und Evaluation bis zu Deployment; sie werden iterativ durchlaufen (@wirthCRISPDMStandardProcess2000, S. 4–7). Wirth und Hipp sprechen von „this highly iterative, creative process with many parallel activities“ und halten fest: „it is never the case that a phase is completely done before the subsequent phase starts“ (@wirthCRISPDMStandardProcess2000, S. 9). Dieser Rahmen stellt sicher, dass Ziele, Daten, Modelle und Bewertung systematisch aufeinander aufbauen.
+
 ## Kundensegmentierung im CRM Kontext {#sec-kundensegmentierung}
 
-Kundensegmentierung stellt ein zentrales Instrument des Customer Relationship Managements (CRM) dar, da sie es Unternehmen ermöglicht, heterogene Kundenbestände in homogene Teilgruppen zu überführen. Ziel ist es, Unterschiede in Verhalten, Nutzung oder Bedürfnissen systematisch herauszuarbeiten und auf dieser Basis Marketingstrategien differenziert auszurichten.
+Clustering wird im CRM als Verfahren des unüberwachten Lernens eingesetzt, das natürliche Gruppierungen erkennt und Kunden in intern kohäsive Gruppen einordnet. „Clustering techniques identify meaningful natural groupings of records and group customers into distinct segments with internal cohesion“ (@tsiptsisDataMiningTechniques2010, S. 39). Ziel ist die Bildung unterscheidbarer Kundentypologien, „so that they can be marketed more effectively“ (@tsiptsisDataMiningTechniques2010, S. 40). Der Nutzen einer Segmentierung misst sich daran, ob die resultierenden Typologien transparent, aussagekräftig und handlungsleitend sind. „The value of each solution depends on its ability to represent transparent, meaningful, and actionable customer typologies“ (@tsiptsisDataMiningTechniques2010, S. 129).
 
-Clustering bietet hierfür die methodische Grundlage. Es handelt sich um ein Verfahren des unüberwachten Lernens, das darauf abzielt, natürliche Gruppierungen in Daten aufzudecken und Kunden in Segmente mit hoher interner Kohäsion zu überführen. Wie betont wird, „clustering techniques identify meaningful natural groupings of records and group customers into distinct segments with internal cohesion“ (@tsiptsisDataMiningTechniques2010, S. 39).
+## Zwei unabhängige Datensichten und deren Harmonisierung im Lichte von CRISP-DM {#sec-crisp-dm}
 
-Im CRM-Kontext geht es dabei nicht nur um eine technische Gruppierung, sondern um die Entwicklung von Segmenten, die eine gezielte Marktbearbeitung erlauben. Clustering „attempt[s] to do exactly that: identify distinct customer typologies and segment the customer base into groups of similar profiles so that they can be marketed more effectively“ (@tsiptsisDataMiningTechniques2010, S. 40). Auf diese Weise wird der Übergang vom Massenmarketing hin zu einer differenzierten, segmentspezifischen Kundenansprache unterstützt.
+Business Understanding konkretisiert das Ziel auf robuste und übertragbare Segmente. Data Understanding führt zwei unabhängige, aber komplementäre Datensichten ein: eine verhaltensnahe Ereignissicht und eine wertbasierte Rechnungssicht. Erst die Kombination erlaubt zu prüfen, ob Clusterstrukturen auf gleich definierten Merkmalen in unterschiedlichen Datenwelten wiederkehren und damit eher domänenweit gültige Muster darstellen als datensatzspezifische Effekte (@wirthCRISPDMStandardProcess2000, S. 5; @tsiptsisDataMiningTechniques2010, S. 39–40).
 
-Darüber hinaus hängt der Nutzen von Kundensegmenten stark davon ab, ob sie geschäftlich verwertbar sind. Wie die Autoren betonen, „the value of each solution depends on its ability to represent transparent, meaningful, and actionable customer typologies“ (@tsiptsisDataMiningTechniques2010, S. 129). Damit wird deutlich, dass Segmentierung im CRM nicht Selbstzweck ist, sondern nur dann zum Einsatz kommen sollte, wenn die gebildeten Gruppen sowohl interpretierbar als auch handlungsleitend sind.
+In Data Preparation werden beide Quellen in ein gemeinsames Ereignisschema überführt, um Messäquivalenz herzustellen. Praktisch umfasst dies konsistente Felder wie customer_id, item_id, timestamp und event_type sowie bei Bedarf quantity, price, revenue und eine Kategoriendarstellung. Damit lassen sich zentrale Konstrukte wie Recency, Frequency, Interkaufintervalle, Diversität und Zeitmuster in beiden Datensichten identisch operationalisieren (@wirthCRISPDMStandardProcess2000, S. 5–6).
+
+In Modeling werden komplementäre Verfahren auf denselben Kernmerkmalen je Datensicht kalibriert, etwa ein zentroidbasiertes und ein dichtebasiertes Verfahren, um unterschiedliche Strukturannahmen abzudecken (@wirthCRISPDMStandardProcess2000, S. 6). Die Evaluation kombiniert interne Qualitätsmaße, die zur jeweiligen Methode passen, mit Stabilitäts- und Übertragbarkeitstests zwischen den Datensichten, bevor Ergebnisse reproduzierbar dokumentiert werden (Evaluation und Deployment, @wirthCRISPDMStandardProcess2000, S. 6–7, S. 9).
 
 ## Datenquellen und Datenschutz RetailRocket und Online Retail II {#sec-datenquellen}
 
-## Clusterverfahren im Überblick K-Means und HDBSCAN {#sec-clusterverfahren}
+Beide Datensätze sind offen zugänglich und anonymisiert, sodass in dieser Arbeit keine personenbezogenen Daten verarbeitet werden. RetailRocket bildet verhaltensnahe Ereignisfolgen ab, Online Retail II die wertbasierte Rechnungssicht; die Detailbeschreibung folgt erst im Praxisteil. Dieser kurze Abschnitt begründet lediglich die Verwendbarkeit und verankert die Quellen im Prozessrahmen.
 
-## Qualitätsmaße Silhouette Davies Bouldin DBCV Adjusted Rand Index Hopkins Calinski Harabasz {#sec-qualitaetsmasse}
+## Verfahren und Qualitätsmaße im Überblick K Means, HDBSCAN und passende Indizes {#sec-verfahren-qualitaet}
+
+K Means steht als zentroidbasierte Baseline für kompakte Strukturen, HDBSCAN als dichtebasierter Ansatz für ungleich dichte Cluster und Rauschen. Bewertet wird mit zu den Verfahren passenden internen Indizes und mit Stabilitätstests; entscheidend ist die spätere Übertragbarkeit zwischen den Datensichten. Formelhafte Details und Parametertabellen entfallen hier und erscheinen erst mit den Ergebnissen.
+
+## Übergang zum Praxisteil Messäquivalenz und minimaler Merkmalssatz {#sec-uebergang}
+
+Für einen fairen Vergleich werden beide Quellen in ein gemeinsames Ereignisschema überführt und ein identischer Kern von Merkmalen definiert. Dieser minimale, quellenübergreifende Merkmalssatz trägt die Modellierung und die Stabilitätsanalysen, während zusätzliche merkmals- oder datensatzspezifische Details erst in Kapitel 3 genutzt und begründet werden. So bleibt der Grundlagenteil schlank und führt direkt in die praktische Umsetzung.
 
 
 

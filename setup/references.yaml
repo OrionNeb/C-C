@@ -49,6 +49,29 @@ references:
   type: book
   URL: https://onlinelibrary.wiley.com/doi/book/10.1002/9780470685815
 
+- id: wirthCRISPDMStandardProcess2000
+  abstract: >-
+    The CRISP-DM (CRoss Industry Standard Process for Data Mining) project
+    proposed a comprehensive process model for carrying out data mining
+    projects. The process model is independent of both the industry sector and
+    the technology used. In this paper we argue in favor of a standard process
+    model for data mining and report some experiences with the CRISP-DM process
+    model in practice.
+  author:
+    - family: Wirth
+      given: Rüdiger
+    - family: Hipp
+      given: Jochen
+  citation-key: wirthCRISPDMStandardProcess2000
+  issued:
+    - year: 2000
+  language: en
+  page: '11'
+  source: Zotero
+  title: 'CRISP-DM: Towards a Standard Process Model for Data Mining'
+  type: article-journal
+  URL: http://cs.unibo.it/~danilo.montesi/CBD/Beatriz/10.1.1.198.5133.pdf
+
 - id: zykovRetailrocketRecommenderSystem
   abstract: 'Ecommerce data: web events, item properties (with texts), category tree'
   accessed:
