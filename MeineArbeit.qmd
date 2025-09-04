@@ -59,6 +59,8 @@ execute:
   code-overflow: wrap  # Lange Zeilen umbrechen
 ---
 
+
+
 ```{r eval=TRUE, message=FALSE, warning=FALSE, include=FALSE}
 # Installiere und lade erforderliche Bibliotheken
 if (!requireNamespace("reticulate", quietly = TRUE)) install.packages("reticulate")
@@ -70,6 +72,7 @@ if (!requireNamespace("tidyverse", quietly = TRUE)) install.packages("tidyverse"
 if (!requireNamespace("forecast", quietly = TRUE)) install.packages("forecast")
 if (!requireNamespace("ggpubr", quietly = TRUE)) install.packages("ggpubr")
 # if (!requireNamespace("viridis", quietly = TRUE)) install.packages("viridis")
+
 
 
 
@@ -125,7 +128,6 @@ from pulp import LpMaximize, LpProblem, LpVariable, value
 Unternehmen segmentieren Kunden oft je Datenquelle, etwa nur im Clickstream oder nur in Transaktionen. So entstehen Cluster mit begrenzter Übertragbarkeit. CRM benötigt jedoch stabile, interpretierbare Segmente, die Nutzungs- und Kaufverhalten zusammenführen und ohne personenbezogene Daten auskommen.
 
 
-
 ## Zielsetzung {#sec-zielsetzung}
 
 Die Arbeit vereinheitlicht RetailRocket und Online Retail II zu einem Ereignisschema und beschreibt Kunden mit einem gemeinsamen Merkmalset aus RFM, Konversionsraten, Zeitmustern, Diversität, Zwischenkaufintervallen sowie Text-Mining auf Kategoriepfaden. Darauf aufbauend werden K-Means und HDBSCAN angewandt und verglichen. Qualität, Stabilität und Clustertendenz werden mit Silhouette-Index, Davies-Bouldin-Index, DBCV, Bootstrapping, Adjusted Rand Index und der Hopkins-Statistik bewertet.
@@ -147,7 +149,7 @@ CRISP-DM bildet den Prozessrahmen dieser Arbeit. Wirth und Hipp schreiben: „Th
 
 ## Kundensegmentierung im CRM Kontext {#sec-kundensegmentierung}
 
-Clustering wird im CRM als Verfahren des unüberwachten Lernens eingesetzt, das natürliche Gruppierungen erkennt und Kunden in intern kohäsive Gruppen einordnet. „Clustering techniques identify meaningful natural groupings of records and group customers into distinct segments with internal cohesion“ (@tsiptsisDataMiningTechniques2010, S. 39). Ziel ist die Bildung unterscheidbarer Kundentypologien, „so that they can be marketed more effectively“ (@tsiptsisDataMiningTechniques2010, S. 40). Der Nutzen einer Segmentierung misst sich daran, ob die resultierenden Typologien transparent, aussagekräftig und handlungsleitend sind. „The value of each solution depends on its ability to represent transparent, meaningful, and actionable customer typologies“ (@tsiptsisDataMiningTechniques2010, S. 129).
+Clustering wird im CRM als Verfahren des unüberwachten Lernens eingesetzt, das natürliche Gruppierungen erkennt und Kunden in intern kohäsive Gruppen einordnet. „Clustering techniques identify meaningful natural groupings of records and group customers into distinct segments with internal cohesion“ (@tsiptsisDataMiningTechniques2010, S. 39). Ziel ist die Bildung unterscheidbarer Kundentypologien, „so that they can be marketed more effectively“ (@tsiptsisDataMiningTechniques2010, S. 40). Der Nutzen einer Segmentierung misst sich daran, ob die resultierenden Typologien transparent, aussagekräftig und handlungsleitend sind. „The value of each solution depends on its ability to represent transparent, meaningful, and actionable customer typologies“ (@tsiptsisDataMiningTechniques2010, S. 129). Als visuelle Einordnung dient im [Anhang A - Kundensegmentierung](#sec-anhangA), Abschnitt [Anhang A.1 - Einordnung der Kundensegmentierung unter Unsupervised Learning](#sec-anhangA1) die Lernarten-Übersicht, in der Kundensegmentierung unter Unsupervised Learning verortet ist.
 
 ## Zwei unabhängige Datensichten und deren Harmonisierung im Lichte von CRISP-DM {#sec-crisp-dm}
 
@@ -155,15 +157,22 @@ Business Understanding konkretisiert das Ziel auf robuste und übertragbare Segm
 
 In Data Preparation werden beide Quellen in ein gemeinsames Ereignisschema überführt, um Messäquivalenz herzustellen. Praktisch umfasst dies konsistente Felder wie customer_id, item_id, timestamp und event_type sowie bei Bedarf quantity, price, revenue und eine Kategoriendarstellung. Damit lassen sich zentrale Konstrukte wie Recency, Frequency, Interkaufintervalle, Diversität und Zeitmuster in beiden Datensichten identisch operationalisieren (@wirthCRISPDMStandardProcess2000, S. 5–6).
 
-In Modeling werden komplementäre Verfahren auf denselben Kernmerkmalen je Datensicht kalibriert, etwa ein zentroidbasiertes und ein dichtebasiertes Verfahren, um unterschiedliche Strukturannahmen abzudecken (@wirthCRISPDMStandardProcess2000, S. 6). Die Evaluation kombiniert interne Qualitätsmaße, die zur jeweiligen Methode passen, mit Stabilitäts- und Übertragbarkeitstests zwischen den Datensichten, bevor Ergebnisse reproduzierbar dokumentiert werden (Evaluation und Deployment, @wirthCRISPDMStandardProcess2000, S. 6–7, S. 9).
+In Modeling werden komplementäre Verfahren auf denselben Kernmerkmalen je Datensicht kalibriert, etwa ein zentroidbasiertes und ein dichtebasiertes Verfahren, um unterschiedliche Strukturannahmen abzudecken (@wirthCRISPDMStandardProcess2000, S. 6). Die Evaluation kombiniert interne Qualitätsmaße, die zur jeweiligen Methode passen, mit Stabilitäts- und Übertragbarkeitstests zwischen den Datensichten, bevor Ergebnisse reproduzierbar dokumentiert werden (@wirthCRISPDMStandardProcess2000, S. 6–7, S. 9).
 
 ## Datenquellen und Datenschutz RetailRocket und Online Retail II {#sec-datenquellen}
 
-Beide Datensätze sind offen zugänglich und anonymisiert, sodass in dieser Arbeit keine personenbezogenen Daten verarbeitet werden. RetailRocket bildet verhaltensnahe Ereignisfolgen ab, Online Retail II die wertbasierte Rechnungssicht; die Detailbeschreibung folgt erst im Praxisteil. Dieser kurze Abschnitt begründet lediglich die Verwendbarkeit und verankert die Quellen im Prozessrahmen.
+Diese Studie nutzt zwei offen zugängliche, anonymisierte E-Commerce-Datensätze mit komplementärer Sicht. Der RetailRocket-Datensatz wurde vom Anbieter auf Kaggle veröffentlicht und enthält roh erfasste Shop-Ereignisse sowie artikelbezogene Eigenschaften und den Kategoriebaum. Zentrale Dateien sind events.csv mit den Ereignistypen view, addtocart und transaction, item_properties_part1.csv, item_properties_part2.csv sowie category_tree.csv. Identifikatoren für Nutzer und Artikel sind gehasht; personenbezogene Daten liegen nicht vor. Die Kaggle-Seite gilt als Primärreferenz des Datensatzes (@zykovRetailrocketRecommenderSystem2022). Online Retail II ist eine von UCI kuratierte Transaktionshistorie eines britischen Händlers mit Produktcodes, Mengen, Preisen, Zeitstempeln und einer Kundenkennung. Inhaltlich wird die UCI-Landingpage zitiert; der praktische Download erfolgte über den Kaggle-Mirror (@DatasetsUCIMachine2019; @miyabonOnlineRetailII2009). Für diese Arbeit genügt ein knapper Datenschutzhinweis, da ausschließlich anonymisierte Forschungsdaten verwendet werden.
 
 ## Verfahren und Qualitätsmaße im Überblick K Means, HDBSCAN und passende Indizes {#sec-verfahren-qualitaet}
 
-K Means steht als zentroidbasierte Baseline für kompakte Strukturen, HDBSCAN als dichtebasierter Ansatz für ungleich dichte Cluster und Rauschen. Bewertet wird mit zu den Verfahren passenden internen Indizes und mit Stabilitätstests; entscheidend ist die spätere Übertragbarkeit zwischen den Datensichten. Formelhafte Details und Parametertabellen entfallen hier und erscheinen erst mit den Ergebnissen.
+K-Means dient in dieser Arbeit als zentroidbasierte Baseline. Die folgenden Zitate belegen genau die Punkte, die für unser Vorgehen entscheidend sind Iterationsprinzip und Zielgröße, Vorabwahl der Clusterzahl und Zentroidrepräsentation sowie Distanzmaß und Konvergenzkriterium. Erstens zum Iterationsprinzip und Ziel K-Means „starts with an initial cluster solution which is updated and adjusted until no further refinement is possible … Each iteration refines the solution by reducing the within-cluster variation“ (@tsiptsisDataMiningTechniques2010, S. 85). Zweitens zur Modellannahme über die Segmentzahl „The "K" in the algorithm’s name comes from the fact that users should specify in advance the number of k clusters to be formed. The "means" part of the name refers to the fact that each cluster is represented by the means of its records … the cluster central point or centroid“ (@tsiptsisDataMiningTechniques2010, S. 85). Drittens zum Ablauf und zur Konvergenz „K-means uses the Euclidean distance measure … The procedure starts by selecting k well-spaced initial records as cluster centers … This iterative procedure is repeated until it converges and the migration of records between clusters no longer refines the solution“ (@tsiptsisDataMiningTechniques2010, S. 86).
+Die herangezogenen Quellen belegen präzise die methodischen Voraussetzungen dieser Studie: ein standardisierter numerischer Merkmalsraum mit euklidischer Distanz sowie die transparente Bestimmung der Clusterzahl auf Basis geeigneter Indizes. Zugleich verdeutlichen sie, warum K-Means klar interpretierbare Zentroidprofile erzeugt, die sich unmittelbar für das anschließende Segmentprofiling nutzen lassen.
+
+HDBSCAN steht für eine hierarchische Weiterentwicklung dichtebasierter Clusterverfahren. Dichtebasierte Ansätze identifizieren Gruppen dort, wo Beobachtungen in Regionen hoher Punktdichte liegen, und behandeln spärlich besetzte Bereiche als Rauschen. Das zugrunde liegende Prinzip wird bei DBSCAN anhand der Parameter $\varepsilon$ und MinPts eingeführt; dadurch lassen sich nicht-konvexe Formen erkennen und Ausreißer explizit als noise ausweisen (@chakrabortyDataClassificationIncremental2022, S. 87–89). HDBSCAN knüpft an dieses Prinzip an, setzt jedoch auf eine hierarchische Betrachtung der Dichte, sodass Cluster über ein Spektrum von Dichteschwellen hinweg ermittelt und stabilere Gruppierungen extrahiert werden können. Damit entfällt die feste Vorgabe einer Clusterzahl und es entstehen Lösungen, die mit lokal unterschiedlichen Dichten und Rauschen umgehen können.
+
+Der methodische Kontrast zu zentroidbasierten Verfahren ist dabei grundlegend. Während K-Means vor allem bei annähernd kugelförmigen Strukturen überzeugt, eignen sich hierarchische Verfahren für arbiträr geformte Cluster (@chakrabortyDataClassificationIncremental2022, S. 96). In dieser Arbeit wird HDBSCAN deshalb als dichtebasiertes Gegenstück zu K-Means eingesetzt; die konkrete Parametrisierung und der algorithmische Ablauf folgen im Methodenteil.
+
+Abschließend zum Methodenvergleich ist der Umgang mit Ausreißern wichtig. In E-Commerce-Daten treten extreme Preise, Mengen oder Event-Bursts auf. K-Means reagiert darauf empfindlich, weil einzelne Extreme Zentren und Distanzen verschieben, während dichtebasierte Verfahren dünn besetzte Bereiche als Rauschen behandeln. Die zugrunde liegende Idee wird beim dichtebasierten Clustering mit $\varepsilon$ und MinPts erläutert, die Outlier-Analyse ordnet Begriffe und Vorgehen ein (@chakrabortyDataClassificationIncremental2022, S. 87–89). Darauf baut die regelbasierte Ausreißerbehandlung in Kapitel 3 auf.
 
 ## Übergang zum Praxisteil Messäquivalenz und minimaler Merkmalssatz {#sec-uebergang}
 
@@ -261,9 +270,9 @@ Was eine \gls{mfa} ist, wird im Glossar beschrieben. Auch glspl und glslink sind
 <!-- ================= Anhangsverzeichnis ================= -->
 
 
-**A** [Zero-Trust-Modell](#sec-anhangA) \dotfill  \pageref{sec-anhangA}
+**A** [Kundensegmentierung](#sec-anhangA) \dotfill  \pageref{sec-anhangA}
 
-&nbsp;&nbsp;&nbsp;**A.1** [Zero-Trust-Säulen](#sec-anhangA1) \dotfill  \pageref{sec-anhangA1}
+&nbsp;&nbsp;&nbsp;**A.1** [Einordnung der Kundensegmentierung unter Unsupervised Learning](#sec-anhangA1) \dotfill  \pageref{sec-anhangA1}
 
 **B** [Erste Analyse der Daten](#sec-anhangB) \dotfill  \pageref{sec-anhangB}
 
@@ -279,15 +288,19 @@ Was eine \gls{mfa} ist, wird im Glossar beschrieben. Auch glspl und glslink sind
 <!-- ================= Anhang ================= -->
 \pagestyle{appendix} 
 ::: {#sec-anhangA}
-# A: Zero-Trust-Modell {.unnumbered}
+# A: Kundensegmentierung {.unnumbered}
 :::
-\markboth{Anhang A: Zero-Trust-Modell}{}
+\markboth{Anhang A: Kundensegmentierung}{}
 
 ::: {#sec-anhangA1}
-## A1: Zero-Trust-Säulen {.unnumbered}
+## A1: Einordnung der Kundensegmentierung unter Unsupervised Learning {.unnumbered}
 :::
 
-\lorem
+Die Kundensegmentierung ist ein klassisches Beispiel für Clustering und damit ein zentrales Verfahren des unüberwachten Lernens. Im Machine-Learning-Kontext werden Kunden anhand ihrer Merkmale in Gruppen eingeteilt, ohne dass eine Zielvariable vorgegeben ist. Die folgende Abbildung zeigt die Einordnung von Clustering und Kundensegmentierung innerhalb der verschiedenen Typen von Machine Learning.
+
+![Ansatzpunkte zur Lösung nach @chakrabortyDataClassificationIncremental2022, S. 28](img/types_of_ml_algorithms.png){#fig-types_of_ml_algorithms width=100%}
+
+\noindent Wie in der @fig-types_of_ml_algorithms dargestellt, ist Clustering ein Teilbereich des Unsupervised Learning. Kundensegmentierung nutzt Clustering-Algorithmen, um natürliche Gruppen von Kunden zu identifizieren. Diese Segmentierung bildet die Grundlage für gezielte Marketingmaßnahmen und eine personalisierte Kundenansprache, ohne dass vorher festgelegte Zielvariablen benötigt werden. Im CRM-Kontext ermöglicht dies eine datengetriebene und flexible Einteilung der Kundenbasis.
 
 \clearpage
 

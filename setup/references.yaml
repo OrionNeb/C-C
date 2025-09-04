@@ -1,5 +1,50 @@
 ---
 references:
+- id: chakrabortyDataClassificationIncremental2022
+  accessed:
+    - year: 2025
+      month: 9
+      day: 4
+  author:
+    - family: Chakraborty
+      given: Sanjay
+    - family: Islam
+      given: Sk Hafizul
+    - family: Samanta
+      given: Debabrata
+  citation-key: chakrabortyDataClassificationIncremental2022
+  collection-title: EAI/Springer Innovations in Communication and Computing
+  DOI: 10.1007/978-3-030-93088-2
+  event-place: Cham
+  ISBN: 978-3-030-93087-5 978-3-030-93088-2
+  issued:
+    - year: 2022
+  language: en
+  license: https://www.springer.com/tdm
+  publisher: Springer International Publishing
+  publisher-place: Cham
+  source: DOI.org (Crossref)
+  title: >-
+    Data Classification and Incremental Clustering in Data Mining and Machine
+    Learning
+  type: book
+  URL: https://link.springer.com/10.1007/978-3-030-93088-2
+
+- id: DatasetsUCIMachine2019
+  accessed:
+    - year: 2025
+      month: 9
+      day: 2
+  citation-key: DatasetsUCIMachine2019
+  issued:
+    - year: 2019
+      month: 9
+      day: 21
+  title: Datasets - UCI Machine Learning Repository
+  type: webpage
+  URL: >-
+    https://archive.ics.uci.edu/datasets?search=Online+Retail&utm_source=chatgpt.com
+
 - id: miyabonOnlineRetailII2009
   accessed:
     - year: 2025
@@ -50,13 +95,6 @@ references:
   URL: https://onlinelibrary.wiley.com/doi/book/10.1002/9780470685815
 
 - id: wirthCRISPDMStandardProcess2000
-  abstract: >-
-    The CRISP-DM (CRoss Industry Standard Process for Data Mining) project
-    proposed a comprehensive process model for carrying out data mining
-    projects. The process model is independent of both the industry sector and
-    the technology used. In this paper we argue in favor of a standard process
-    model for data mining and report some experiences with the CRISP-DM process
-    model in practice.
   author:
     - family: Wirth
       given: Rüdiger
@@ -72,8 +110,7 @@ references:
   type: article-journal
   URL: http://cs.unibo.it/~danilo.montesi/CBD/Beatriz/10.1.1.198.5133.pdf
 
-- id: zykovRetailrocketRecommenderSystem
-  abstract: 'Ecommerce data: web events, item properties (with texts), category tree'
+- id: zykovRetailrocketRecommenderSystem2022
   accessed:
     - year: 2025
       month: 8
@@ -85,8 +122,10 @@ references:
       given: Artem
     - family: Anokhin
       given: Alexander
-  citation-key: zykovRetailrocketRecommenderSystem
+  citation-key: zykovRetailrocketRecommenderSystem2022
   container-title: kaggle.com
+  issued:
+    - year: 2022
   language: en
   license: CC BY-NC-SA 4.0
   title: Retailrocket recommender system dataset
