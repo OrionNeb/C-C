@@ -45,6 +45,39 @@ references:
   URL: >-
     https://archive.ics.uci.edu/datasets?search=Online+Retail&utm_source=chatgpt.com
 
+- id: laiSilhouetteCoefficientbasedWeighting2025
+  accessed:
+    - year: 2025
+      month: 9
+      day: 5
+  author:
+    - family: Lai
+      given: Huixia
+    - family: Huang
+      given: Tao
+    - family: Lu
+      given: BinLong
+    - family: Zhang
+      given: Shi
+    - family: Xiaog
+      given: Ruliang
+  citation-key: laiSilhouetteCoefficientbasedWeighting2025
+  container-title: Neural Computing and Applications
+  container-title-short: Neural Comput & Applic
+  DOI: 10.1007/s00521-024-10706-0
+  ISSN: 0941-0643, 1433-3058
+  issue: '5'
+  issued:
+    - year: 2025
+      month: 2
+  language: en
+  page: 3061-3075
+  source: DOI.org (Crossref)
+  title: Silhouette coefficient-based weighting k-means algorithm
+  type: article-journal
+  URL: https://link.springer.com/10.1007/s00521-024-10706-0
+  volume: '37'
+
 - id: miyabonOnlineRetailII2009
   accessed:
     - year: 2025
@@ -66,6 +99,39 @@ references:
   title: Online Retail II UCI
   type: webpage
   URL: https://www.kaggle.com/datasets/mashlyn/online-retail-ii-uci
+
+- id: moulaviDensityBasedClusteringValidation2014
+  accessed:
+    - year: 2025
+      month: 9
+      day: 5
+  author:
+    - family: Moulavi
+      given: Davoud
+    - family: Jaskowiak
+      given: Pablo A.
+    - family: Campello
+      given: Ricardo J. G. B.
+    - family: Zimek
+      given: Arthur
+    - family: Sander
+      given: Jörg
+  citation-key: moulaviDensityBasedClusteringValidation2014
+  container-title: Proceedings of the 2014 SIAM International Conference on Data Mining
+  DOI: 10.1137/1.9781611973440.96
+  event-title: Proceedings of the 2014 SIAM International Conference on Data Mining
+  ISBN: 978-1-61197-344-0
+  issued:
+    - year: 2014
+      month: 4
+      day: 28
+  language: en
+  page: 839-847
+  publisher: Society for Industrial and Applied Mathematics
+  source: DOI.org (Crossref)
+  title: Density-Based Clustering Validation
+  type: paper-conference
+  URL: https://epubs.siam.org/doi/10.1137/1.9781611973440.96
 
 - id: tsiptsisDataMiningTechniques2010
   accessed:

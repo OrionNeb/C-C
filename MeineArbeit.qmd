@@ -145,11 +145,11 @@ Die Untersuchung folgt CRISP-DM mit Datenverständnis und EDA, Vereinheitlichung
 
 # Grundlagen {#sec-grundlagen}
 
-CRISP-DM bildet den Prozessrahmen dieser Arbeit. Wirth und Hipp schreiben: „The life cycle of a data mining project is broken down in six phases“ (@wirthCRISPDMStandardProcess2000, S. 4). Die Phasen reichen von Business Understanding über Data Understanding, Data Preparation, Modeling und Evaluation bis zu Deployment; sie werden iterativ durchlaufen (@wirthCRISPDMStandardProcess2000, S. 4–7). Wirth und Hipp sprechen von „this highly iterative, creative process with many parallel activities“ und halten fest: „it is never the case that a phase is completely done before the subsequent phase starts“ (@wirthCRISPDMStandardProcess2000, S. 9). Dieser Rahmen stellt sicher, dass Ziele, Daten, Modelle und Bewertung systematisch aufeinander aufbauen.
+CRISP-DM bildet den Prozessrahmen dieser Arbeit. Wirth und Hipp schreiben: „The life cycle of a data mining project is broken down in six phases“ (@wirthCRISPDMStandardProcess2000, S. 4). Die Phasen reichen von Business Understanding über Data Understanding, Data Preparation, Modeling und Evaluation bis zu Deployment; sie werden iterativ durchlaufen (@wirthCRISPDMStandardProcess2000, S. 4–7). Wirth und Hipp sprechen von „this highly iterative, creative process with many parallel activities“ und halten fest: „it is never the case that a phase is completely done before the subsequent phase starts“ (@wirthCRISPDMStandardProcess2000, S. 9). Dieser Rahmen stellt sicher, dass Ziele, Daten, Modelle und Bewertung systematisch aufeinander aufbauen und ist in [Anhang A: CRISP-DM](#sec-anhangA), [Abschnitt A1: Das CRISP-DM-Modell](#sec-anhangA1) grafisch dargestellt.
 
 ## Kundensegmentierung im CRM Kontext {#sec-kundensegmentierung}
 
-Clustering wird im CRM als Verfahren des unüberwachten Lernens eingesetzt, das natürliche Gruppierungen erkennt und Kunden in intern kohäsive Gruppen einordnet. „Clustering techniques identify meaningful natural groupings of records and group customers into distinct segments with internal cohesion“ (@tsiptsisDataMiningTechniques2010, S. 39). Ziel ist die Bildung unterscheidbarer Kundentypologien, „so that they can be marketed more effectively“ (@tsiptsisDataMiningTechniques2010, S. 40). Der Nutzen einer Segmentierung misst sich daran, ob die resultierenden Typologien transparent, aussagekräftig und handlungsleitend sind. „The value of each solution depends on its ability to represent transparent, meaningful, and actionable customer typologies“ (@tsiptsisDataMiningTechniques2010, S. 129). Als visuelle Einordnung dient im [Anhang B - Kundensegmentierung](#sec-anhangB), Abschnitt [Anhang B.1 - Einordnung der Kundensegmentierung unter Unsupervised Learning](#sec-anhangB1) die Lernarten-Übersicht, in der Kundensegmentierung unter Unsupervised Learning verortet ist.
+Clustering wird im CRM als Verfahren des unüberwachten Lernens eingesetzt, das natürliche Gruppierungen erkennt und Kunden in intern kohäsive Gruppen einordnet. „Clustering techniques identify meaningful natural groupings of records and group customers into distinct segments with internal cohesion“ (@tsiptsisDataMiningTechniques2010, S. 39). Ziel ist die Bildung unterscheidbarer Kundentypologien, „so that they can be marketed more effectively“ (@tsiptsisDataMiningTechniques2010, S. 40). Der Nutzen einer Segmentierung misst sich daran, ob die resultierenden Typologien transparent, aussagekräftig und handlungsleitend sind. „The value of each solution depends on its ability to represent transparent, meaningful, and actionable customer typologies“ (@tsiptsisDataMiningTechniques2010, S. 129). Als visuelle Einordnung dient im [Anhang B: Kundensegmentierung](#sec-anhangB), Abschnitt [Anhang B.1: Einordnung der Kundensegmentierung unter Unsupervised Learning](#sec-anhangB1) die Lernarten-Übersicht, in der Kundensegmentierung unter Unsupervised Learning verortet ist.
 
 ## Zwei unabhängige Datensichten und deren Harmonisierung im Lichte von CRISP-DM {#sec-crisp-dm}
 
@@ -176,17 +176,22 @@ Abschließend zum Methodenvergleich ist der Umgang mit Ausreißern wichtig. In E
 
 ## Qualitäts- und Stabilitätsmaße im Überblick {#sec-qualitaet}
 
-Für die Modellwahl werden interne Gütemaße eingesetzt, die ohne externe Labels die Trennschärfe und Kompaktheit der gefundenen Gruppen beurteilen. Bei K-Means stehen damit vor allem metrische Indizes im Vordergrund. Die Silhouette fasst für jedes Objekt Verhältnis von Binnen- zu Zwischenabstand zusammen und liefert einen intuitiven Skalenwert von schlecht bis gut; Calinski-Harabasz bewertet die Varianzaufspaltung zwischen und innerhalb der Cluster, während Davies–Bouldin geringe mittlere Ähnlichkeiten zwischen Clusterzentren belohnt. Für dichtebasierte Lösungen mit Rauschen und nicht-konvexen Formen ist ein dichteorientiertes Kriterium zweckmäßig; daher verwenden wir einen DBCV-Index, der Kohäsion und Separation über Dichtegrößen erfasst. Ergänzend berichten wir stets den Anteil des als Rauschen eingestuften Punktemasse.
-Robustheit wird über Wiederholungsstichproben geprüft: Per Bootstrapping entstehen Replikate, deren Zuordnungen mit dem Adjusted Rand Index verglichen werden. Hohe ARI-Werte deuten auf stabile Lösungen hin. Vor der Modellierung wird außerdem die Clustertendenz des Merkmalsraums mit der Hopkins-Statistik geprüft, um zu vermeiden, dass in nahezu zufällige Strukturen hinein modelliert wird. Schließlich testen wir die Übertragbarkeit, indem eine Lösung aus der Ereignissicht auf die Rechnungssicht projiziert wird und umgekehrt; neben ARI betrachten wir dabei die Ähnlichkeit der Segmentprofile. Die formalen Definitionen und Rechenregeln folgen im Methodenteil.
+Zur Bewertung der Clusterlösungen werden für jedes Verfahren passende Gütemaße verwendet. Für K-Means liegt der Schwerpunkt auf dem Silhouettenkoeffizienten. Dieses Maß erfasst, wie gut ein Objekt zu seinem eigenen Cluster passt, verglichen mit der Nähe zu anderen Clustern. Der Wert reicht von –1 bis +1, wobei höhere Werte auf klar abgegrenzte Clusterstrukturen hinweisen. Tsiptsis und Chorianopoulos nennen die Silhouette als ein zentrales Kriterium für die technische Evaluation von Clustern (@tsiptsisDataMiningTechniques2010, S. 209). Lai et al. betonen, dass der Silhouettenkoeffizient sowohl die Kohäsion innerhalb der Cluster als auch die Trennung zwischen Clustern berücksichtigt und damit ein objektives Maß für die Güte der Gruppierung liefert (@laiSilhouetteCoefficientbasedWeighting2025, S. 3063).
+
+Für dichtebasierte Verfahren wie HDBSCAN eignet sich der DBCV-Index. Moulavi et al. betonen, dass „DBCV employs the concept of Hartigan’s model of density-contour trees to compute the least dense region inside a cluster and the most dense region between the clusters, which are used to measure the within and between-cluster density connectedness of clusters“ (@moulaviDensityBasedClusteringValidation2014, S. 839). Damit wird die Qualität einer Clustering-Lösung nicht mehr über Abstände zwischen Zentren gemessen, sondern über dichtebasierte Eigenschaften. Ein guter Cluster hat dabei eine höhere Mindestdichte im Inneren als die maximale Dichte, die ihn von anderen Clustern trennt. Zudem stellen die Autoren klar: „Unlike other relative validity indices, our method not only directly takes into account density and shape properties of clusters but also properly deals with noise objects, which are intrinsic to the definition of the density-based clustering“ (@moulaviDensityBasedClusteringValidation2014, S. 845). Das bedeutet, dass das Verfahren auch Ausreißer und Rauschen korrekt berücksichtigt, die bei dichtebasierten Algorithmen wie HDBSCAN typischerweise auftreten. So lässt sich die Qualität der Lösung auch dann zuverlässig beurteilen, wenn die Cluster keine einfachen, kugelförmigen Strukturen bilden.
+
+Ergänzend zur reinen Gütebewertung wird die Stabilität geprüft. Hierzu werden wiederholt Stichproben aus den Daten gezogen, Modelle neu geschätzt und die Übereinstimmung der Clusterzuordnungen mit dem Adjusted Rand Index gemessen. Werte nahe bei 1 deuten auf eine stabile Lösung hin. Vor der eigentlichen Modellierung wird zudem mit der Hopkins-Statistik getestet, ob der Datensatz überhaupt eine ausgeprägte Clustertendenz enthält. Werte nahe 0,5 sprechen für Zufälligkeit, während Werte über 0,75 auf deutliche Clusterstrukturen hindeuten.
+
+Damit deckt die Arbeit drei Dimensionen ab: die innere Qualität der Cluster, die Robustheit der Ergebnisse und die grundsätzliche Tendenz zur Bildung von Gruppen. Diese Kombination ermöglicht es, K-Means und HDBSCAN fair miteinander zu vergleichen.
 
 ## Übergang zum Praxisteil im Lichte von CRISP-DM {#sec-uebergang}
 
-Der Praxisteil setzt die bisherige Einordnung entlang der CRISP-DM-Phasen um. Ausgehend vom Business Understanding wird die Forschungsfrage nach robusten und übertragbaren Kundensegmenten präzisiert. In Data Understanding werden die beiden offenen E-Commerce-Quellen charakterisiert, Clustertendenz und Datenqualität geprüft und ein geeignetes Beobachtungsfenster festgelegt. Data Preparation harmonisiert beide Quellen in ein gemeinsames Ereignisschema und stellt Messäquivalenz her, sodass zentrale Konstrukte wie Recency, Frequency, Monetary, Interkaufintervalle, Diversität oder Zeitmuster identisch berechnet werden können. Darauf aufbauend erfolgt die Modeling-Phase mit zwei komplementären Verfahren K-Means als zentroidbasierte Baseline und HDBSCAN als hierarchisch dichtebasiertes Gegenstück. Die Evaluation nutzt die in Abschnitt 2.5 skizzierten Qualitäts- und Stabilitätsmaße und erweitert sie um Übertragbarkeitstests zwischen den Datensichten; alle Schritte werden reproduzierbar dokumentiert. CRISP-DM versteht diesen Ablauf ausdrücklich als iterativen, phasenübergreifenden Prozess, in dem Ergebnisse einer Phase die nächste anstoßen und bei Bedarf Rücksprünge erlauben (@wirthCRISPDMStandardProcess2000, S. 4–7, 9). Damit ist der Übergang zur praktischen Umsetzung vorbereitet.
+Die folgenden Schritte orientieren sich eng am CRISP-DM-Referenzmodell und werden iterativ durchlaufen. Wirth und Hipp betonen: „The sequence of the phases is not strict. The arrows indicate only the most important and frequent dependencies between phases, but in a particular project, it depends on the outcome of each phase which phase, or which particular task of a phase, has to be performed next.“ (@wirthCRISPDMStandardProcess2000, S. 4)  
+Genau diese flexible und zyklische Struktur nutzen wir, um Datenaufbereitung, Merkmalsbildung und Modellwahl eng mit den Evaluationsbefunden zu koppeln.
 
+Konkret bedeutet das für den Praxisteil: Zunächst vertiefen wir Data Understanding für beide Quellen und legen Datenqualität, Beobachtungsfenster und Clustertendenz fest. In Data Preparation harmonisieren wir RetailRocket und Online Retail II in ein gemeinsames Ereignisschema, sodass RFM-, Zeit- und Diversitätsmerkmale messäquivalent berechnet werden. In Modeling setzen wir zwei komplementäre Verfahren ein: K-Means als zentroidbasierte Baseline und HDBSCAN als hierarchisch dichtebasiertes Gegenstück. Die Evaluation folgt dem in Abschnitt [Qualitäts- und Stabilitätsmaße im Überblick](#sec-qualitaet) beschriebenen Set aus Silhouette, Calinski-Harabasz, Davies-Bouldin bzw. DBCV, ergänzt um Bootstrapping und ARI zur Stabilität sowie den Rauschanteil bei HDBSCAN.
 
-
-
-
+Zur Orientierung, wie diese Schritte in dieser Arbeit konkret den CRISP-DM-Phasen zugeordnet sind, verweist [Anhang A: CRISP-DM](#sec-anhangA), [Abschnitt A.2: Das CRISP-DM-Modell angewendet auf diese Studienarbeit](#sec-anhangA2).
 
 <!-- ================= 3. Praxisteil ================= -->
 
@@ -237,15 +242,7 @@ Was eine \gls{mfa} ist, wird im Glossar beschrieben. Auch glspl und glslink sind
 ## Nutzen für CRM, Kampagnensteuerung und nächste Schritte
 ## Ausblick weitere Text Mining Merkmale und Uplift Experimente
 
-<!-- ===
-# Anhang
 
-## A1 Prompts und Antworten der KI Hilfsmittel
-## A2 Datenschemata RetailRocket und Online Retail II
-## A3 Zusätzliche Tabellen zu Qualitätsmaßen und Bootstraps
-## A4 Codeauszüge und Umgebungsparameter
-## A5 Zusätzliche Grafiken
-=== -->
 
 <!-- ================= Literaturverzeichnis ================= -->
 
@@ -277,14 +274,19 @@ Was eine \gls{mfa} ist, wird im Glossar beschrieben. Auch glspl und glslink sind
 \noindent
 <!-- ================= Anhangsverzeichnis ================= -->
 
+**A** [CRISP-DM](#sec-anhangA) \dotfill  \pageref{sec-anhangA}
 
-**A** [Kundensegmentierung](#sec-anhangA) \dotfill  \pageref{sec-anhangA}
+&nbsp;&nbsp;&nbsp;**A.1** [Das CRISP-DM-Modell](#sec-anhangA1) \dotfill  \pageref{sec-anhangA1}
 
-&nbsp;&nbsp;&nbsp;**A.1** [Einordnung der Kundensegmentierung unter Unsupervised Learning](#sec-anhangA1) \dotfill  \pageref{sec-anhangA1}
+&nbsp;&nbsp;&nbsp;**A.2** [Das CRISP-DM-Modell angewendet auf diese Studienarbeit](#sec-anhangA1) \dotfill  \pageref{sec-anhangA1}
 
-**B** [Erste Analyse der Daten](#sec-anhangB) \dotfill  \pageref{sec-anhangB}
+**B** [Kundensegmentierung](#sec-anhangB) \dotfill  \pageref{sec-anhangB}
 
-&nbsp;&nbsp;&nbsp;**B.1** [Ergebnisse der ersten Analyse](#sec-anhangB1) \dotfill  \pageref{sec-anhangB1}
+&nbsp;&nbsp;&nbsp;**B.1** [Einordnung der Kundensegmentierung unter Unsupervised Learning](#sec-anhangB1) \dotfill  \pageref{sec-anhangB1}
+
+**C** [Erste Analyse der Daten](#sec-anhangC) \dotfill  \pageref{sec-anhangC}
+
+&nbsp;&nbsp;&nbsp;**C.1** [Ergebnisse der ersten Analyse](#sec-anhangC1) \dotfill  \pageref{sec-anhangC1}
  
 
 
@@ -295,13 +297,41 @@ Was eine \gls{mfa} ist, wird im Glossar beschrieben. Auch glspl und glslink sind
 
 <!-- ================= Anhang ================= -->
 \pagestyle{appendix} 
+
 ::: {#sec-anhangA}
-# A: Kundensegmentierung {.unnumbered}
+# A: CRISP-DM {.unnumbered}
 :::
-\markboth{Anhang A: Kundensegmentierung}{}
+\markboth{Anhang A: CRISP-DM}{}
 
 ::: {#sec-anhangA1}
-## A1: Einordnung der Kundensegmentierung unter Unsupervised Learning {.unnumbered}
+## A.1: Das CRISP-DM-Modell {.unnumbered}
+:::
+
+Die @fig-crisp-dm zeigt das CRISP-DM-Referenzmodell mit seinen sechs Phasen Business Understanding, Data Understanding, Data Preparation, Modeling, Evaluation und Deployment. Pfeile markieren die zentralen Abhängigkeiten, während der äußere Kreis den iterativen, zyklischen Charakter des Vorgehens unterstreicht. Das Modell ist als allgemeiner Rahmen entworfen und unabhängig von Anwendungsdomäne oder eingesetzter Software.
+
+
+![Das CRISP-DM-Modell nach @wirthCRISPDMStandardProcess2000, S. 5](img/CRISP-DM.png){#fig-crisp-dm width=70%}
+
+Jede der sechs Phasen ist in spezifische Aufgaben untergliedert, die den Ablauf systematisieren und nachvollziehbar machen. So umfasst Data Understanding das Beschreiben, Erkunden und Überprüfen der Datenqualität, während Data Preparation Aufgaben wie Auswählen, Bereinigen, Konstruieren und Integrieren von Daten vorsieht. Modeling beinhaltet die Wahl geeigneter Verfahren, die Erstellung eines Testdesigns sowie den Aufbau und die Bewertung von Modellen. Evaluation konzentriert sich auf die Überprüfung der Ergebnisse im Hinblick auf die Projektziele, und Deployment behandelt die Bereitstellung und Nutzung der Modelle im Anwendungskontext. Wirth und Hipp betonen außerdem den stark iterativen Charakter des Modells: Ergebnisse einer Phase können jederzeit zu Rücksprüngen führen, wodurch die Arbeitsschritte flexibel angepasst werden können (@wirthCRISPDMStandardProcess2000, S. 6–9).
+
+::: {#sec-anhangA2}
+## A.2: Das CRISP-DM-Modell angewendet auf diese Studienarbeit {.unnumbered}
+:::
+
+Die @fig-crisp-dm-Studienarbeit zeigt, wie die einzelnen Phasen des CRISP-DM-Modells konkret auf die Schritte und Kapitel dieser Studienarbeit abgebildet wurden. Die Zuordnung verdeutlicht, welche Arbeitsschritte in welcher Phase umgesetzt und wie sie im Dokument strukturiert sind.
+
+![Eigene Darstellung des angewendeten CRISP-DM-Frameworks](img/CRISP-DM-Studienarbeit.png){#fig-crisp-dm-Studienarbeit width=100%}
+
+Die Grafik ordnet die Kapitel und Arbeitsschritte dieser Studienarbeit den einzelnen Phasen des CRISP-DM-Prozesses zu. So wird sichtbar, wie die theoretischen und praktischen Teile entlang des etablierten Data-Mining-Standards strukturiert und umgesetzt wurden.
+
+
+::: {#sec-anhangB}
+# B: Kundensegmentierung {.unnumbered}
+:::
+\markboth{Anhang B: Kundensegmentierung}{}
+
+::: {#sec-anhangB1}
+## B.1: Einordnung der Kundensegmentierung unter Unsupervised Learning {.unnumbered}
 :::
 
 Die Kundensegmentierung ist ein klassisches Beispiel für Clustering und damit ein zentrales Verfahren des unüberwachten Lernens. Im Machine-Learning-Kontext werden Kunden anhand ihrer Merkmale in Gruppen eingeteilt, ohne dass eine Zielvariable vorgegeben ist. Die folgende Abbildung zeigt die Einordnung von Clustering und Kundensegmentierung innerhalb der verschiedenen Typen von Machine Learning.
@@ -312,16 +342,16 @@ Die Kundensegmentierung ist ein klassisches Beispiel für Clustering und damit e
 
 \clearpage
 
-::: {#sec-anhangB}
-# B: Erste Analyse der Daten {.unnumbered}
+::: {#sec-anhangC}
+# C: Erste Analyse der Daten {.unnumbered}
 :::
-\markboth{Anhang B: Erste Analyse der Daten}{}
+\markboth{Anhang C: Erste Analyse der Daten}{}
 
 \lorem
 
 
-::: {#sec-anhangB1}
-## B1: Lorem {.unnumbered}
+::: {#sec-anhangC1}
+## C.1: Lorem {.unnumbered}
 :::
 
 \lorem
