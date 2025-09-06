@@ -62,6 +62,14 @@ execute:
 
 
 ```{r eval=TRUE, message=FALSE, warning=FALSE, include=FALSE}
+
+# Arbeitsumgebung leeren (alle Objekte entfernen)
+rm(list = ls())
+gc()
+
+# Root für Quarto setzen
+knitr::opts_knit$set(root.dir = here::here())
+
 # Installiere und lade erforderliche Bibliotheken
 if (!requireNamespace("reticulate", quietly = TRUE)) install.packages("reticulate")
 if (!requireNamespace("rmarkdown", quietly = TRUE)) install.packages("rmarkdown")
@@ -71,7 +79,7 @@ if (!requireNamespace("tidyr", quietly = TRUE)) install.packages("tidyr")
 if (!requireNamespace("tidyverse", quietly = TRUE)) install.packages("tidyverse")
 if (!requireNamespace("forecast", quietly = TRUE)) install.packages("forecast")
 if (!requireNamespace("ggpubr", quietly = TRUE)) install.packages("ggpubr")
-# if (!requireNamespace("viridis", quietly = TRUE)) install.packages("viridis")
+if (!requireNamespace("viridis", quietly = TRUE)) install.packages("viridis")
 
 
 
@@ -84,7 +92,8 @@ library(tidyr)
 library(tidyverse)
 library(forecast)
 library(ggpubr)
-# library(viridis)
+library(viridis)
+
 ```
 
 ```{python, include=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
@@ -202,7 +211,38 @@ Zur Orientierung, wie diese Schritte in dieser Arbeit konkret den CRISP-DM-Phase
 
 ## Datenbasis, Harmonisierung und Bereinigung {#sec-datenbasis}
 
+Die Analyse basiert auf zwei offen zugänglichen, anonymisierten E-Commerce-Datensätzen, die unterschiedliche Perspektiven auf das Kundenverhalten eröffnen. \medskip 
+
+  - RetailRocket enthält ereignisbasierte Daten aus einem Online-Shop. Erfasst werden Interaktionen wie Seitenaufrufe, Warenkorbaktionen und Transaktionen. Ergänzende Dateien ordnen Artikeln Eigenschaften und Kategorien zu.
+  - Online Retail II stellt transaktionsbasierte Rechnungsinformationen eines britischen Händlers bereit. Enthalten sind unter anderem Rechnungsnummer, Artikelcode, Menge, Preis, Zeitstempel und eine anonymisierte Kundenkennung.  
+
+\medskip
+
+\noindent Damit die Daten gemeinsam ausgewertet werden können, ist eine Harmonisierung der Strukturen erforderlich. Geplant ist die Überführung der Rohdaten in ein gemeinsames Ereignisschema, in dem zentrale Variablen wie Kunden-, Artikel- und Zeitinformationen konsistent abgebildet werden. Außerdem wird eine grundlegende Bereinigung vorgesehen, bei der Duplikate und fehlerhafte Einträge behandelt sowie Rückgaben eindeutig gekennzeichnet werden.  
+
+Die detaillierte Variablenbeschreibung findet sich im [Anhang C.1: Variablenbeschreibung und Quellen](#sec-anhangC1). Die Abbildung der heterogenen Strukturen auf ein einheitliches Ereignisschema ist im [Anhang C.2: Abbildung auf ein einheitliches Ereignisschema](#sec-anhangC2) dokumentiert. Eine zusammenfassende Darstellung aller Arbeitsschritte zur Datenaufbereitung befindet sich im [Anhang C](#sec-anhangC).
+
+
+
+
 ## Gemeinsames Merkmalset RFM, Konversionsproxys, Zeitmuster, Intervalle, Diversität {#sec-merkmalset}
+
+Auf Grundlage des harmonisierten Ereignisschemas werden aus den Rohdaten abgeleitete Merkmale erstellt, die als Input für die Clusterverfahren dienen. Ziel ist es, sowohl wertorientierte als auch verhaltensorientierte Aspekte des Kundenverhaltens abzubilden.  
+
+Die Merkmalsbildung umfasst insbesondere folgende Bereiche:  
+
+  - **Recency, Frequency, Monetary (RFM):** klassische Kennzahlen aus dem Kundenwertmanagement zur Beschreibung der Aktualität, Häufigkeit und Höhe von Käufen.
+  - **Konversionsproxys:** Verhältnis von Ansichten und Warenkorbaktionen zu tatsächlichen Käufen (nur im RetailRocket-Datensatz abbildbar).
+  - **Zeitmuster:** Ableitung bevorzugter Kauf- und Nutzungszeiten (z. B. Tageszeit, Wochentag, Saison).
+  - **Kaufintervalle:** Berechnung der Abstände zwischen aufeinanderfolgenden Käufen je Kunde.
+  - **Diversität:** Variation der gekauften bzw. angesehenen Artikelkategorien als Maß für das Breiten- oder Spezialistenverhalten.  
+
+\medskip
+
+\noindent Die konkrete Berechnung dieser Merkmale erfordert vorbereitende Schritte wie die Bereinigung der Rohdaten und die Vereinheitlichung der Zeitangaben. Diese sind im [Anhang C.3: Bereinigungsschritte](#sec-anhangC3) sowie im [Anhang C.4: Normalisierung der Zeitstempel](#sec-anhangC4) dokumentiert. Eine zusammenfassende Darstellung des bereinigten Bestands findet sich in [C.5](#sec-anhangC5).  
+
+\noindent Mit diesem Merkmalsset wird ein konsistenter Input für die Modellierung geschaffen, der sowohl die Interaktionssicht aus RetailRocket als auch die Transaktionssicht aus Online Retail II integriert.
+
 
 ## Clustertendenz und Modelle Hopkins, K-Means, HDBSCAN {#sec-clustertendenz}
 
@@ -340,21 +380,391 @@ Die Kundensegmentierung ist ein klassisches Beispiel für Clustering und damit e
 \clearpage
 
 ::: {#sec-anhangC}
-# C: Erste Analyse der Daten {.unnumbered}
+# C: Datenaufbereitung und Voranalysen {.unnumbered}
 :::
-\markboth{Anhang C: Erste Analyse der Daten}{}
+\markboth{Anhang C: Datenaufbereitung und Voranalysen}{}
 
-\lorem
+Die im Haupttext (vgl. Abschnitt [3.1 Datenbasis, Harmonisierung und Bereinigung](#sec-datenbasis)) skizzierten Arbeitsschritte werden in diesem Anhang detailliert dokumentiert. Dadurch bleibt der Fließtext der Studienarbeit fokussiert, während Nachvollziehbarkeit und Reproduzierbarkeit gewährleistet sind.  
 
+\medskip
+
+\noindent Der Anhang ist in fünf Teile gegliedert: \smallskip
+
+  1. [Variablenbeschreibung und Quellen (C.1)](#sec-anhangC1)
+  2. [Abbildung auf ein einheitliches Ereignisschema (C.2)](#sec-anhangC2)
+  3. [Bereinigungsschritte (C.3)](#sec-anhangC3)
+  4. [Normalisierung der Zeitstempel (C.4)](#sec-anhangC4)
+  5. [Zusammenfassung des bereinigten Datenbestands (C.5)](#sec-anhangC5)
+
+\medskip
+
+\noindent In den Abschnitten [C.1](#sec-anhangC1) bis [C.4](#sec-anhangC4) wird ausschließlich R eingesetzt, um die Daten einzulesen, zu prüfen, zu bereinigen und in ein konsistentes Ereignisschema zu überführen. Mit Paketen wie dplyr, tidyr und here lassen sich die Rohdaten strukturiert verarbeiten und tabellarisch dokumentieren.  
+
+\noindent Python kommt erst im weiteren Verlauf der Arbeit (ab [Kapitel 4, Evaluation und Ergebnisse](#sec-evaluation)) zum Einsatz, um die eigentliche Modellierung der Kundensegmente mit Clustering-Algorithmen (K-Means, HDBSCAN) und die Berechnung der Qualitätsmaße umzusetzen.  
+
+\medskip
+
+\noindent Diese Aufgabenteilung folgt der Praxis vieler Forschungsarbeiten. R bietet klare Vorteile bei der transparenten Dokumentation und Datenaufbereitung, während Python durch seine umfangreichen Bibliotheken im Machine-Learning-Bereich für die Modellierung prädestiniert ist.
 
 ::: {#sec-anhangC1}
-## C.1: Lorem {.unnumbered}
+## C.1 Variablenbeschreibung und Quellen {.unnumbered}
 :::
 
-\lorem
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, include=TRUE}
+# Pakete laden
+library(readr)
+library(dplyr)
+library(here)
+
+# Versionen dokumentieren
+pkgs <- c("readr","dplyr","here")
+vers <- sapply(pkgs, function(p) as.character(utils::packageVersion(p)))
+attached <- pkgs %in% sub("^package:", "", search())
+data.frame(package = pkgs, version = vers, attached = attached)
+
+# Pfade bauen
+p_events <- here("data","RR","events.csv")
+p_item1  <- here("data","RR","item_properties_part1.csv")
+p_item2  <- here("data","RR","item_properties_part2.csv")
+p_cat    <- here("data","RR","category_tree.csv")
+p_or2    <- if (file.exists(here("data","OR2","online_retail_II.csv"))) {
+              here("data","OR2","online_retail_II.csv")
+            } else {
+              here("data","OR2","online_retail_ll.csv")
+            }
+
+# Laden
+events        <- read_csv(p_events, show_col_types = FALSE)
+item_props_1  <- read_csv(p_item1,  show_col_types = FALSE)
+item_props_2  <- read_csv(p_item2,  show_col_types = FALSE)
+category_tree <- read_csv(p_cat,    show_col_types = FALSE)
+online_retail <- read_csv(p_or2,    show_col_types = FALSE)
+
+# Erste 5 Zeilen je Datensatz
+head(events, 5)
+head(item_props_1, 5)
+head(item_props_2, 5)
+head(category_tree, 5)
+head(online_retail, 5)
+```
+
+\bigskip
+
+\noindent Die Ausgaben verdeutlichen die Struktur der Datensätze. Zur besseren Übersicht werden die wichtigsten Variablen und ihre Bedeutungen zusätzlich tabellarisch dargestellt:
+
+| Variable             | Quelle                          | Bedeutung                                                                 |
+|----------------------|---------------------------------|---------------------------------------------------------------------------|
+| `timestamp`          | RetailRocket (events)           | Zeitstempel in Millisekunden seit 1970, Angabe des Ereigniszeitpunkts     |
+| `visitorid`          | RetailRocket (events)           | Anonymisierte Kennung eines Besuchers                                     |
+| `event`              | RetailRocket (events)           | Typ des Ereignisses: *view*, *addtocart*, *transaction*                   |
+| `itemid`             | RetailRocket (events)           | Artikelkennung                                                            |
+| `transactionid`      | RetailRocket (events)           | ID der Transaktion (optional, nur bei Käufen)                             |
+| `property`           | RetailRocket (item_properties)  | Attribut eines Artikels (z. B. Kategorie, Preis, technische Merkmale)     |
+| `value`              | RetailRocket (item_properties)  | Wert des jeweiligen Attributs                                             |
+| `categoryid`         | RetailRocket (category_tree)    | Identifikator einer Kategorie                                             |
+| `parentid`           | RetailRocket (category_tree)    | Übergeordnete Kategorie, beschreibt die Hierarchie                        |
+| `Invoice`            | Online Retail II                | Rechnungsnummer                                                           |
+| `StockCode`          | Online Retail II                | Artikelcode                                                               |
+| `Description`        | Online Retail II                | Kurzbeschreibung des Artikels                                             |
+| `Quantity`           | Online Retail II                | Menge der verkauften Artikel                                              |
+| `InvoiceDate`        | Online Retail II                | Zeitstempel der Rechnungsstellung                                         |
+| `Price`              | Online Retail II                | Einzelpreis pro Artikel                                                   |
+| `Customer ID`         | Online Retail II                | Anonymisierte Kundenkennung                                               |
+| `Country`            | Online Retail II                | Land des Kunden                                                           |
+
+: Übersicht der Variablen in beiden Datenquellen {#tbl-variablen}
+
+\medskip
+
+\noindent Damit ist nachvollziehbar, dass RetailRocket eine ereignisbasierte Sicht (Nutzung und Interaktion) bereitstellt, während Online Retail II eine transaktionsbasierte Sicht liefert. Beide Perspektiven ergänzen sich und bilden die Grundlage für die in C.2 dargestellte Harmonisierung in ein gemeinsames Ereignisschema.
+
+::: {#sec-anhangC2}
+## C.2: Abbildung auf ein einheitliches Ereignisschema {.unnumbered}
+:::
+
+Ziel ist eine gemeinsame Struktur beider Quellen, in der Kunden-, Artikel-, Zeit- und Ereignisinformationen identisch benannt sind. Zusätzliche Felder für Menge, Preis, Umsatz und Kategorie werden bereits angelegt, auch wenn sie in RetailRocket zunächst leer bleiben. Preise und Kategorien werden dort später aus *item_properties* und *category_tree* ergänzt (vgl. [C.3 Bereinigungsschritte](#sec-anhangC3), [C.4 Normalisierung der Zeitstempel](#sec-anhangC4)).
+
+
+Zuordnung der Quell- zu den Zielvariablen
+
+| Zielvariable            | RetailRocket (Quelle)             | Online Retail II (Quelle) | Bedeutung                                          |
+|-------------------------|-----------------------------------|---------------------------|----------------------------------------------------|
+| `customer_id`           | `visitorid`                       | `Customer ID`              | Anonymisierte Kennung des Kunden                   |
+| `item_id`               | `itemid`                          | `StockCode`               | Artikelkennung                                     |
+| `timestamp`             | `timestamp` (ms seit 1970)        | `InvoiceDate`             | Zeitpunkt des Ereignisses / der Transaktion        |
+| `event_type`            | `event` (*view*, *addtocart*, *transaction*)      | implizit: immer *purchase* | Typ des Ereignisses               |
+| `transactionid`         | `transactionid` (falls Kauf)      | `Invoice`                 | Eindeutige Transaktionskennung                     |
+| `quantity`              | nicht enthalten                   | `Quantity`                | Anzahl der verkauften Artikel                      |
+| `price`                 | über `item_properties`            | `Price`                   | Einzelpreis pro Artikel                            |
+| `revenue`               | berechnet: quantity × price       | berechnet: Quantity × Price | Umsatz pro Ereignis                              |
+| `category`              | aus `category_tree`               | ggf. aus `Description`    | Zuordnung zu einer Produktkategorie                |
+
+: Abbildung der Variablen auf das Ereignisschema {#tbl-ereignisschema}
+
+\medskip
+
+\noindent Während RetailRocket eine feingranulare Unterscheidung nach Ereignistypen erlaubt (*view*, *addtocart*, *transaction*), bildet Online Retail II ausschließlich abgeschlossene Käufe ab. Beide Datensätze liefern somit unterschiedliche, aber komplementäre Informationen.  
+
+Die Abbildung in ein gemeinsames Schema stellt sicher, dass spätere Merkmalsberechnungen (z. B. Recency, Frequency, Monetary-Werte, Kaufintervalle, Diversität) auf konsistenter Datenbasis erfolgen können.  
+
+Die Umsetzung der Transformation erfolgt mit R. Der folgende Chunk zeigt exemplarisch, wie die Zielvariablen aus beiden Quellen generiert werden.
+
+
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, include=TRUE}
+# RetailRocket auf Ereignisschema abbilden
+rr_events <- events %>%
+  select(customer_id = visitorid,
+         item_id     = itemid,
+         timestamp   = timestamp,
+         event_type  = event,
+         transactionid) %>%
+  mutate(timestamp   = as.POSIXct(timestamp/1000, origin="1970-01-01", tz="UTC"),
+         quantity    = ifelse(event_type == "transaction", 1, NA),
+         price       = NA_real_,   # später aus item_properties
+         revenue     = ifelse(!is.na(quantity) & !is.na(price), quantity * price, NA_real_),
+         category    = NA_character_) # später aus category_tree
+
+# Online Retail II auf Ereignisschema abbilden
+or2_events <- online_retail %>%
+  select(transactionid = Invoice,
+         item_id       = StockCode,
+         customer_id   = `Customer ID`,
+         timestamp     = InvoiceDate,
+         quantity      = Quantity,
+         price         = Price,
+         country       = Country,
+         description   = Description) %>%   # hier mit reinnehmen
+  mutate(event_type = "purchase",
+         revenue    = quantity * price,
+         category   = description)          # hier benutzen
+
+
+# Vorschau
+head(rr_events, 5)
+head(or2_events, 5)
+
+```
+
+\medskip
+
+\noindent In der harmonisierten Tabelle von RetailRocket bleiben die Variablen `quantity`, `price`, `revenue` und `category` zunächst leer, da diese Informationen im Rohdatensatz nicht in direkter Form vorliegen. Diese Spalten wurden dennoch angelegt, um die Struktur beider Quellen konsistent zu halten und spätere Ergänzungen zu ermöglichen.  
+
+Bei Online Retail II sind diese Variablen hingegen vollständig verfügbar: Transaktionskennungen, Mengen, Preise und Umsätze können direkt übernommen werden. Der Ereignistyp ist dort implizit immer ein Kauf (*purchase*), sodass keine Unterscheidung zwischen verschiedenen Interaktionen möglich ist.  
+
+Die Abbildung verdeutlicht damit die komplementäre Natur der Daten: RetailRocket liefert eine feingranulare Sicht auf Nutzerverhalten, Online Retail II eine wertbasierte Sicht auf Käufe. Das vereinheitlichte Ereignisschema stellt sicher, dass in den folgenden Schritten (vgl. [C.3 Bereinigungsschritte](#sec-anhangC3) und [C.4 Normalisierung der Zeitstempel](#sec-anhangC4)) eine konsistente Datenbasis für die Merkmalsbildung geschaffen wird.
 
 
 
+::: {#sec-anhangC3}
+## C.3: Bereinigungsschritte {.unnumbered}
+:::
+
+Die Rohdaten enthalten neben den relevanten Informationen auch fehlerhafte oder problematische Einträge. Um eine konsistente Datenbasis für die spätere Merkmalsbildung zu schaffen, wurden die folgenden Regeln angewandt: \medskip
+
+  1. Pflichtfelder: Beobachtungen ohne Kunden-, Artikel- oder Zeitangabe wurden entfernt.
+  2. Duplikate: Exakte Dubletten (gleiche Kunden-, Artikel-, Zeit- und Ereignisinformationen) wurden eliminiert.
+  3. Rückgaben: Im Datensatz Online Retail II wurden negative Mengen sowie Rechnungsnummern mit Präfix „C“ als Rückgaben gekennzeichnet. Diese Ereignisse erhielten den Typ `return`.
+  4. Ausreißer: Mengen und Preise wurden per Winsorisierung auf das 1. und 99. Perzentil begrenzt, um extreme Werte abzuflachen.
+  5. Fehlerhafte Werte: Offensichtlich ungültige Beobachtungen (z. B. Mengen ≤ 0 nach Winsorisierung) wurden ausgeschlossen.
+
+\medskip
+
+\noindent Im RetailRocket-Datensatz bleiben die Variablen `quantity`, `price` und `revenue` leer, da diese Informationen dort nicht in direkter Form vorliegen. Die Ereignisse konzentrieren sich auf Interaktionen wie *view*, *addtocart* und *transaction*. Im Online-Retail-II-Datensatz konnten dagegen Transaktionskennungen, Mengen, Preise und Umsätze bereinigt und in plausibler Form übernommen werden.  
+
+Die Anwendung dieser Regeln stellt sicher, dass Auswertungen auf stabilen Grundlagen erfolgen und Verzerrungen durch fehlerhafte Einträge vermieden werden. Die bereinigten Daten bilden damit die Ausgangsbasis für die Normalisierung der Zeitangaben in Abschnitt [C.4](#sec-anhangC4).
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, include=TRUE}
+# benötigte Pakete
+library(dplyr)
+library(stringr)
+
+# Vorbedingungen prüfen
+if (!exists("rr_events"))  stop("rr_events fehlt. Bitte C.2 ausführen.")
+if (!exists("or2_events")) stop("or2_events fehlt. Bitte C.2 ausführen.")
+
+# Hilfsfunktion: sichere Winsorisierung (tut nichts, wenn zu wenig gültige Werte vorliegen)
+safe_winsorize <- function(x, p_low = 0.01, p_high = 0.99) {
+  if (!is.numeric(x)) return(x)
+  nn <- sum(!is.na(x))
+  if (nn < 10) return(x)
+  lo <- suppressWarnings(quantile(x, probs = p_low, na.rm = TRUE))
+  hi <- suppressWarnings(quantile(x, probs = p_high, na.rm = TRUE))
+  x <- pmin(pmax(x, lo), hi)
+  as.numeric(x)
+}
+
+# 1) RetailRocket bereinigen
+# Pflichtfelder belegen, exakte Duplikate entfernen
+rr_clean <- rr_events %>%
+  # nur wirklich notwendige Felder
+  select(customer_id, item_id, timestamp, event_type, transactionid,
+         quantity, price, revenue, category) %>%
+  # Pflichtfelder
+  filter(!is.na(customer_id), !is.na(item_id), !is.na(timestamp), !is.na(event_type)) %>%
+  # exakte Duplikate
+  distinct(customer_id, item_id, timestamp, event_type, transactionid, .keep_all = TRUE)
+
+# 2) Online Retail II bereinigen
+# Rückgaben-Regel und Felder füllen
+or2_clean <- or2_events %>%
+  select(transactionid, item_id, customer_id, timestamp, quantity, price, country, description,
+         event_type, revenue, category) %>%
+  mutate(
+    quantity = suppressWarnings(as.numeric(quantity)),
+    price    = suppressWarnings(as.numeric(price))
+  ) %>%
+  filter(!is.na(customer_id), !is.na(item_id), !is.na(timestamp)) %>%
+  mutate(
+    return_flag  = (!is.na(quantity) & quantity < 0) |
+                   (!is.na(transactionid) & grepl("^C", as.character(transactionid))),
+    quantity_abs = if_else(return_flag & !is.na(quantity), abs(quantity), quantity),
+    event_type   = if_else(return_flag, "return", "purchase"),
+    category     = coalesce(category, description),
+    revenue      = if_else(!is.na(quantity_abs) & !is.na(price), quantity_abs * price, revenue)
+  ) %>%
+  distinct(transactionid, item_id, customer_id, timestamp, quantity_abs, price, event_type, .keep_all = TRUE) %>%
+  mutate(
+    quantity_w = safe_winsorize(quantity_abs, 0.01, 0.99),
+    price_w    = safe_winsorize(price,       0.01, 0.99),
+    revenue_w  = quantity_w * price_w
+  ) %>%
+  filter(is.na(quantity_w) | quantity_w > 0,
+         is.na(price_w)    | price_w    > 0)
+
+# kurze Sichtprüfungen
+head(rr_clean, 5)
+head(or2_clean, 5)
+```
+
+
+
+\medskip
+
+Die Vorschau zeigt, dass Pflichtfelder belegt sind, Duplikate entfernt wurden und Rückgaben in Online Retail II über `event_type = return` gekennzeichnet sind. Mengen und Preise wurden dort per Winsorisierung begrenzt und als `quantity_w` und `price_w` bereitgestellt.
+
+::: {#sec-anhangC4}
+## C.4: Normalisierung der Zeitstempel {.unnumbered}
+:::
+
+Neben inhaltlichen Bereinigungen ist auch die einheitliche Behandlung der Zeitangaben erforderlich. Beide Datensätze enthalten Zeitinformationen, die jedoch in unterschiedlicher Form vorliegen. \medskip
+
+  - Im RetailRocket-Datensatz werden Zeitstempel in Millisekunden seit dem 1. Januar 1970 gespeichert
+  - Im Online-Retail-II-Datensatz liegt das Kaufdatum bereits als Datumsfeld (InvoiceDate) vor, allerdings ohne einheitliche Ableitung von Kalendermerkmalen
+
+\medskip
+
+\noindent Um die Daten konsistent nutzen zu können, wurden folgende Schritte durchgeführt: \smallskip
+
+  1. Konvertierung in ein einheitliches Format. Alle Zeitangaben wurden in das POSIXct-Format überführt und zusätzlich als Datum (date) abgespeichert.
+  2. Ableitung von Kalendermerkmalen. Aus den Zeitstempeln wurden standardisierte Variablen für Wochentag (wday), Stunde (hour), Monat (month) und Jahr (year) berechnet.
+  3. Harmonisierung der Skalen. Damit liegen beide Quellen auf derselben Zeitskala vor, was aggregierte Analysen und Vergleiche zwischen RetailRocket und Online Retail II ermöglicht.
+  
+\medskip
+
+\noindent Die Normalisierung erlaubt es, zeitliche Muster in beiden Quellen konsistent zu erfassen, beispielsweise bevorzugte Kaufzeiten oder saisonale Effekte. Diese Variablen werden in der Merkmalsbildung (vgl. Abschnitt [3.2](#sec-merkmalset)) eingesetzt, um Kundencluster auch anhand von Verhaltensrhythmen zu unterscheiden.
+
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, include=TRUE}
+# Benötigte Pakete laden
+library(lubridate)
+library(dplyr)
+
+# Guard: C.3 muss gelaufen sein
+if (!exists("rr_clean") || !exists("or2_clean")) {
+  stop("C.4 benötigt rr_clean und or2_clean aus C.3. Bitte zuerst C.3 ausführen oder das Dokument vollständig rendern.")
+}
+
+# RetailRocket
+# timestamp ist bereits POSIXct (C.2). Hier werden Datum und Kalendermerkmale ergänzt
+rr_time <- rr_clean %>%
+  mutate(
+    # reines Datum zusätzlich ablegen
+    date  = as.Date(timestamp),
+    # Wochentag Mo–So, abgekürzt, Montag als Wochenbeginn
+    wday  = wday(timestamp, label = TRUE, abbr = TRUE, week_start = 1),
+    # Stunde 0–23
+    hour  = hour(timestamp),
+    # Monat Jan–Dez, abgekürzt
+    month = month(timestamp, label = TRUE, abbr = TRUE),
+    # Jahr vierstellig
+    year  = year(timestamp)
+  )
+
+# Online Retail II
+# gleiches Verfahren für Konsistenz der Skalen und Merkmale
+or2_time <- or2_clean %>%
+  mutate(
+    date  = as.Date(timestamp),
+    wday  = wday(timestamp, label = TRUE, abbr = TRUE, week_start = 1),
+    hour  = hour(timestamp),
+    month = month(timestamp, label = TRUE, abbr = TRUE),
+    year  = year(timestamp)
+  )
+
+# Stichproben zur Kontrolle
+head(rr_time, 5)
+head(or2_time, 5)
+```
+
+\medskip
+
+
+\noindent Die Normalisierung liegt damit für beide Datensätze in identischer Struktur vor. Die abgeleiteten Kalendermerkmale werden in der Merkmalsbildung genutzt und erlauben zeitliche Musteranalysen ohne zusätzliche Transformationen.
+
+
+::: {#sec-anhangC5}
+## C.5: Zusammenfassung des bereinigten Datenbestands {.unnumbered}
+:::
+
+Die Abschnitte C.3 und C.4 haben die Bereinigung und die Normalisierung der Zeitangaben dokumentiert. In diesem Abschnitt wird der bereinigte Datenbestand in komprimierter Form zusammengefasst. Dadurch lässt sich die Qualität der Datenbasis einschätzen, die in Abschnitt [3.2 Merkmalsbildung](#sec-merkmalset) für die Ableitung der Cluster-Merkmale genutzt wird.  \medskip
+
+Zentrale Fragen der Plausibilisierung sind: \smallskip
+
+  1. Wie groß sind die Datensätze nach der Bereinigung?
+  2. Welche Verteilungen zeigen die kaufbezogenen Variablen in Online Retail II?
+  3. Sind die Strukturen der beiden Quellen konsistent nutzbar?
+
+
+```{r c5-zusammenfassung, dependson=c("c3-bereinigung","c4-zeit-normalisierung"), eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, include=TRUE}
+library(dplyr)
+
+# Dimensionen beider Quellen
+dim_summary <- data.frame(
+  datensatz  = c("RetailRocket (bereinigt)", "Online Retail II (bereinigt)"),
+  n_zeilen   = c(nrow(rr_time), nrow(or2_time)),
+  n_spalten  = c(ncol(rr_time), ncol(or2_time))
+)
+
+# Verteilungen kaufbezogener Variablen in Online Retail II
+or2_summary <- or2_time %>%
+  summarise(
+    n_events       = n(),
+    n_returns      = sum(event_type == "return", na.rm = TRUE),
+    median_qty     = median(quantity_w, na.rm = TRUE),
+    p99_qty        = quantile(quantity_w, 0.99, na.rm = TRUE),
+    median_price   = median(price_w, na.rm = TRUE),
+    p99_price      = quantile(price_w, 0.99, na.rm = TRUE),
+    median_revenue = median(revenue_w, na.rm = TRUE),
+    p99_revenue    = quantile(revenue_w, 0.99, na.rm = TRUE)
+  )
+
+# Stichprobenzeilen zur Illustration
+rr_probe  <- head(select(rr_time, customer_id, item_id, timestamp, event_type), 5)
+or2_probe <- head(select(or2_time, customer_id, item_id, timestamp, event_type,
+                         quantity_w, price_w, revenue_w), 5)
+
+dim_summary
+or2_summary
+rr_probe
+or2_probe
+```
+
+Die Übersicht zeigt, dass beide Quellen nach der Bereinigung eine substanzielle Anzahl an Beobachtungen enthalten und somit ausreichend groß für die geplante Clusteranalyse sind.  
+
+Die kaufbezogenen Variablen im Online-Retail-II-Datensatz weisen nach Winsorisierung plausible Wertebereiche auf, extreme Ausreißer wurden erfolgreich begrenzt. Rückgaben sind als eigene Ereignisse gekennzeichnet und können später gesondert berücksichtigt werden.  
+
+Der RetailRocket-Datensatz bildet dagegen ausschließlich Interaktionen ab, liefert aber mit den normalisierten Zeitfeldern eine konsistente Ergänzung zur transaktionsorientierten Sicht von Online Retail II.  
+
+Damit ist eine robuste und vergleichbare Datenbasis geschaffen, auf der in Abschnitt [3.2 Merkmalsbildung](#sec-merkmalset) die eigentlichen Analysemerkmale konstruiert werden.
 
 
 
