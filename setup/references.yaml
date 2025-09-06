@@ -1,10 +1,26 @@
 ---
 references:
+- id: acitoPredictiveAnalyticsKNIME2023
+  author:
+    - family: Acito
+      given: Frank
+  citation-key: acitoPredictiveAnalyticsKNIME2023
+  DOI: 10.1007/978-3-031-45630-5
+  event-place: Cham
+  ISBN: 978-3-031-45629-9 978-3-031-45630-5
+  issued:
+    - year: 2023
+  language: en
+  license: https://www.springernature.com/gp/researchers/text-and-data-mining
+  publisher: Springer Nature Switzerland
+  publisher-place: Cham
+  source: DOI.org (Crossref)
+  title: 'Predictive Analytics with KNIME: Analytics for Citizen Data Scientists'
+  title-short: Predictive Analytics with KNIME
+  type: book
+  URL: https://link.springer.com/10.1007/978-3-031-45630-5
+
 - id: chakrabortyDataClassificationIncremental2022
-  accessed:
-    - year: 2025
-      month: 9
-      day: 4
   author:
     - family: Chakraborty
       given: Sanjay
@@ -45,11 +61,29 @@ references:
   URL: >-
     https://archive.ics.uci.edu/datasets?search=Online+Retail&utm_source=chatgpt.com
 
-- id: laiSilhouetteCoefficientbasedWeighting2025
-  accessed:
-    - year: 2025
+- id: hennigClusterwiseAssessmentCluster2007
+  author:
+    - family: Hennig
+      given: Christian
+  citation-key: hennigClusterwiseAssessmentCluster2007
+  container-title: Computational Statistics & Data Analysis
+  container-title-short: Computational Statistics & Data Analysis
+  DOI: 10.1016/j.csda.2006.11.025
+  ISSN: '01679473'
+  issue: '1'
+  issued:
+    - year: 2007
       month: 9
-      day: 5
+  language: en
+  license: https://www.elsevier.com/tdm/userlicense/1.0/
+  page: 258-271
+  source: DOI.org (Crossref)
+  title: Cluster-wise assessment of cluster stability
+  type: article-journal
+  URL: https://linkinghub.elsevier.com/retrieve/pii/S0167947306004622
+  volume: '52'
+
+- id: laiSilhouetteCoefficientbasedWeighting2025
   author:
     - family: Lai
       given: Huixia
@@ -101,10 +135,6 @@ references:
   URL: https://www.kaggle.com/datasets/mashlyn/online-retail-ii-uci
 
 - id: moulaviDensityBasedClusteringValidation2014
-  accessed:
-    - year: 2025
-      month: 9
-      day: 5
   author:
     - family: Moulavi
       given: Davoud
@@ -134,10 +164,6 @@ references:
   URL: https://epubs.siam.org/doi/10.1137/1.9781611973440.96
 
 - id: tsiptsisDataMiningTechniques2010
-  accessed:
-    - year: 2025
-      month: 8
-      day: 31
   author:
     - family: Tsiptsis
       given: Konstantinos

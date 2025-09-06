@@ -101,7 +101,7 @@ def install_and_import(package):
         globals()[package] = __import__(package)
 
 # Äquivalente Bibliotheken in Python installieren und importieren
-libraries = ["pandas", "numpy", "matplotlib", "seaborn", "scipy"]
+libraries = ["pandas", "numpy", "matplotlib", "seaborn", "scipy", "statsmodels", "pulp"]
 
 for lib in libraries:
     install_and_import(lib)
@@ -182,11 +182,14 @@ Für dichtebasierte Verfahren wie HDBSCAN eignet sich der DBCV-Index. Moulavi et
 
 Ergänzend zur reinen Gütebewertung wird die Stabilität geprüft. Hierzu werden wiederholt Stichproben aus den Daten gezogen, Modelle neu geschätzt und die Übereinstimmung der Clusterzuordnungen mit dem Adjusted Rand Index gemessen. Werte nahe bei 1 deuten auf eine stabile Lösung hin. Vor der eigentlichen Modellierung wird zudem mit der Hopkins-Statistik getestet, ob der Datensatz überhaupt eine ausgeprägte Clustertendenz enthält. Werte nahe 0,5 sprechen für Zufälligkeit, während Werte über 0,75 auf deutliche Clusterstrukturen hindeuten.
 
-Damit deckt die Arbeit drei Dimensionen ab: die innere Qualität der Cluster, die Robustheit der Ergebnisse und die grundsätzliche Tendenz zur Bildung von Gruppen. Diese Kombination ermöglicht es, K-Means und HDBSCAN fair miteinander zu vergleichen.
+Ergänzend zur reinen Gütebewertung wird die Stabilität der Clusterlösungen untersucht. Dazu werden wiederholt Stichproben aus den Daten gezogen und die Modelle neu geschätzt. Hennig beschreibt dieses Vorgehen als naheliegend: „The Jaccard coefficient, a similarity measure between sets, is used as a cluster-wise measure of cluster stability, which is assessed by the bootstrap distribution of the Jaccard coefficient for every single cluster of a clustering compared to the most similar cluster in the bootstrapped data sets“ (@hennigClusterwiseAssessmentCluster2007, S. 258). Auf Ebene der gesamten Clusterlösung wird häufig der Adjusted Rand Index eingesetzt. Hennig weist darauf hin, dass „the adjusted Rand index (Hubert and Arabie, 1985) has been used often to measure the similarity between two complete clusterings“ (@hennigClusterwiseAssessmentCluster2007, S. 260). Auch Moulavi et al. nennen den Adjusted Rand Index als gängiges Maß, um Clustering-Ergebnisse mit einer bestehenden Struktur zu vergleichen: „External clustering validity approaches such as the Adjusted Rand Index compare clustering results with a pre-existing clustering (or class) structure, i.e., a ground truth solution“ (@moulaviDensityBasedClusteringValidation2014, S. 840). Werte nahe bei 1 deuten in beiden Fällen auf eine stabile Lösung hin. 
+
+Vor der eigentlichen Modellierung wird zudem geprüft, ob die Daten überhaupt eine ausgeprägte Clustertendenz enthalten. Ein etabliertes Maß hierfür ist die Hopkins-Statistik. Sie „can be used to assess the clustering tendency of a data set by measuring the probability that a uniform data distribution generates a given data set. In other words, it considers the spatial randomness of the data“ (@acitoPredictiveAnalyticsKNIME2023, S. 271). Werte nahe 0,5 sprechen für eine zufällige Verteilung, während Werte über 0,75 auf deutliche Clusterstrukturen schließen lassen.
+
 
 ## Übergang zum Praxisteil im Lichte von CRISP-DM {#sec-uebergang}
 
-Die folgenden Schritte orientieren sich eng am CRISP-DM-Referenzmodell und werden iterativ durchlaufen. Wirth und Hipp betonen: „The sequence of the phases is not strict. The arrows indicate only the most important and frequent dependencies between phases, but in a particular project, it depends on the outcome of each phase which phase, or which particular task of a phase, has to be performed next.“ (@wirthCRISPDMStandardProcess2000, S. 4)  
+Die folgenden Schritte orientieren sich eng am CRISP-DM-Referenzmodell und werden iterativ durchlaufen. Wirth und Hipp betonen: „The sequence of the phases is not strict. The arrows indicate only the most important and frequent dependencies between phases, but in a particular project, it depends on the outcome of each phase which phase, or which particular task of a phase, has to be performed next“ (@wirthCRISPDMStandardProcess2000, S. 4).  
 Genau diese flexible und zyklische Struktur nutzen wir, um Datenaufbereitung, Merkmalsbildung und Modellwahl eng mit den Evaluationsbefunden zu koppeln.
 
 Konkret bedeutet das für den Praxisteil: Zunächst vertiefen wir Data Understanding für beide Quellen und legen Datenqualität, Beobachtungsfenster und Clustertendenz fest. In Data Preparation harmonisieren wir RetailRocket und Online Retail II in ein gemeinsames Ereignisschema, sodass RFM-, Zeit- und Diversitätsmerkmale messäquivalent berechnet werden. In Modeling setzen wir zwei komplementäre Verfahren ein: K-Means als zentroidbasierte Baseline und HDBSCAN als hierarchisch dichtebasiertes Gegenstück. Die Evaluation folgt dem in Abschnitt [Qualitäts- und Stabilitätsmaße im Überblick](#sec-qualitaet) beschriebenen Set aus Silhouette, Calinski-Harabasz, Davies-Bouldin bzw. DBCV, ergänzt um Bootstrapping und ARI zur Stabilität sowie den Rauschanteil bei HDBSCAN.
@@ -195,53 +198,47 @@ Zur Orientierung, wie diese Schritte in dieser Arbeit konkret den CRISP-DM-Phase
 
 <!-- ================= 3. Praxisteil ================= -->
 
-# Praxisteil
+# Methodik und Umsetzung {#sec-methodik}
 
-## Datenverständnis RetailRocket Ereignisschema und Eigenschaften {#sec-datenverstaendnisRR}
+## Datenbasis, Harmonisierung und Bereinigung {#sec-datenbasis}
 
-## Datenverständnis Online Retail II Transaktionsschema und Eigenschaften {#sec-datenverstaendnisOR}
+## Gemeinsames Merkmalset RFM, Konversionsproxys, Zeitmuster, Intervalle, Diversität {#sec-merkmalset}
 
-## Vereinheitlichung beider Datensätze gemeinsames Ereignisschema {#sec-datenvereinheitlichung}
+## Clustertendenz und Modelle Hopkins, K-Means, HDBSCAN {#sec-clustertendenz}
 
-## Datenaufbereitung und Feature Engineering RFM Konversionsproxys Zeitmuster Diversität Interkaufintervalle {#sec-datenaufbereitung}
-
-## Text Mining auf Kategoriepfaden TF IDF optional Item2Vec {#sec-textmining}
-
-## Clustering Ansatz 1 K-Means Auswahl der Clusterzahl über Silhouette und Davies Bouldin {#sec-clustering1}
-
-## Clustering Ansatz 2 HDBSCAN Parameterwahl und DBCV {#sec-clustering2}
-
-## Stabilität und Robustheit Bootstrapping und Adjusted Rand Index {#sec-stabilitaet}
-
-## Segmentprofiling KPI Profile und Top Kategorien je Cluster {#sec-segmentprofiling}
-
-## Reproduzierbarkeit Notebook Struktur Hyperparameter Versionierung {#sec-reproduzierbarkeit}
+## Evaluationsdesign Silhouette, CH, DB, DBCV, Bootstrapping, ARI {#sec-evaluationsdesign}
 
 <!-- ================= 4. Evaluation und Ergebnisse ================= -->
 
-# Evaluation und Ergebnisse
+# Evaluation und Ergebnisse {#sec-evaluation}
 
-## Clusterqualität je Datensatz RetailRocket und Online Retail II {#sec-clusterqualitaet}
+## Qualitätsübersicht RetailRocket und Online Retail II {#sec-qualitaetsuebersicht}
 
-## Vergleich der Lösungen K-Means gegenüber HDBSCAN {#sec-vergleich}
+## Stabilität und Robustheit ARI und Rauschanteil {#sec-stabilitaet}
 
-## Sensitivitätsanalyse Feature Varianten und Hyperparameter {#sec-sensitivitaetsanalyse}
+## Vergleich K-Means vs. HDBSCAN {#sec-vergleich}
 
-## Grenzen Datenqualität Sparsity Cold Start {#sec-grenzen}
+## Segmentprofile und CRM-Interpretation {#sec-segmentprofile}
+
+## Limitationen und Übertragbarkeit {#sec-limitationen}
 
 <!-- ================= 5. Fazit und Ausblick ================= -->
 
-# Fazit und Ausblick
+# Fazit und Ausblick {#sec-fazit}
 
+## Beantwortung der Forschungsfrage {#sec-forschungsfrage}
 
+Die Untersuchung zeigt, dass sich auf dem gemeinsamen Merkmalset in beiden Datensichten robuste und interpretierbare Kundensegmente ableiten lassen. K-Means liefert bei annähernd kugelförmigen Strukturen die höheren Silhouettenwerte und klarere Zentroidprofile, HDBSCAN identifiziert zusätzlich dichtebasierte Cluster und weist Rauschen explizit aus. Insgesamt bestätigt sich die Übertragbarkeit zentraler Muster zwischen RetailRocket und Online Retail II, wenn Merkmaldefinitionen harmonisiert und Skalierungen konsistent sind.
+
+## Nutzen für CRM Kampagnensteuerung und nächste Schritte {#sec-crm-nutzen}
+
+Die resultierenden Segmente sind operabel: Sie unterscheiden sich in RFM-Profilen, Kaufintervallen, Zeitmustern und Top-Kategorien. Daraus lassen sich Zielgruppenregeln für Kampagnen ableiten etwa Reaktivierung bei langen Intervallen, Cross-Sell auf Basis von TF-IDF-Kategorien, sowie Taktung nach bevorzugten Zeitfenstern. Nächste Schritte sind die Anbindung an Kampagnenlogik und ein A/B-Rahmen zur Wirkungsmessung.
+
+## Ausblick weitere Text Mining Merkmale und Uplift Experimente {#sec-ausblick}
+
+Zur Verfeinerung eignen sich zusätzliche Text-Merkmale aus Titel, Beschreibung und Kategoriepfaden etwa n-Gramme, Embeddings oder Item2Vec. Für die Wirksamkeitseinordnung empfehlen sich Uplift-Experimente, um Segmente mit kausalem Mehrwert zu identifizieren und Ressourcen dorthin zu priorisieren.
 
 Was eine \gls{mfa} ist, wird im Glossar beschrieben. Auch glspl und glslink sind möglich.
-
-
-## Beantwortung der Forschungsfrage
-## Nutzen für CRM, Kampagnensteuerung und nächste Schritte
-## Ausblick weitere Text Mining Merkmale und Uplift Experimente
-
 
 
 <!-- ================= Literaturverzeichnis ================= -->
@@ -278,7 +275,7 @@ Was eine \gls{mfa} ist, wird im Glossar beschrieben. Auch glspl und glslink sind
 
 &nbsp;&nbsp;&nbsp;**A.1** [Das CRISP-DM-Modell](#sec-anhangA1) \dotfill  \pageref{sec-anhangA1}
 
-&nbsp;&nbsp;&nbsp;**A.2** [Das CRISP-DM-Modell angewendet auf diese Studienarbeit](#sec-anhangA1) \dotfill  \pageref{sec-anhangA1}
+&nbsp;&nbsp;&nbsp;**A.2** [Das CRISP-DM-Modell angewendet auf diese Studienarbeit](#sec-anhangA2) \dotfill  \pageref{sec-anhangA2}
 
 **B** [Kundensegmentierung](#sec-anhangB) \dotfill  \pageref{sec-anhangB}
 
